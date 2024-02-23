@@ -12,7 +12,7 @@ def main():
     commitArray = []
     for commit in Repository("https://github.com/rust-lang/regex").traverse_commits():
         if ("regex " in commit.msg) and (("bug" in commit.msg) or ("fix" in commit.msg)):
-            commitArray.append([commit.hash, str(commit.committer_date), commit.msg, ])
+            commitArray.append([commit.hash, str(commit.committer_date), commit.msg])
 
     df = pd.DataFrame(data=commitArray, columns=["Commit Hash", "Commit Date", "Commit Msg"], copy=False)
     df.to_excel('output.xlsx')
