@@ -25,16 +25,16 @@ def mineRepo():
     df["Year"] = pd.to_datetime(df["Commit Date"], utc=True).dt.year
 
     # Count the number of items per year
-    items_per_year = df["Year"].value_counts().sort_index()
+    itemsPerYear = df["Year"].value_counts().sort_index()
 
     # Add the count of items per year to the original DataFrame
-    df = df.merge(items_per_year.rename("Commits (Bug Fixes?) Found Per Year"), left_on="Year", right_index=True, how="left")
+    df = df.merge(itemsPerYear.rename("Commits (Bug Fixes?) Found Per Year"), left_on="Year", right_index=True, how="left")
 
     # Save the modified DataFrame to Excel
     df.to_excel("output.xlsx", index=False)
 
     # Create a line graph (uncomment if wanted)
-    # plt.plot(items_per_year.index, items_per_year.values, marker="o")
+    # plt.plot(itemsPerYear.index, itemsPerYear.values, marker="o")
     # plt.xlabel("Year")
     # plt.ylabel("Number of Items")
     # plt.title("Number of Items Found Each Year")
