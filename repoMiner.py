@@ -26,36 +26,44 @@ def mineRepo():
             for s in evoStrings: 
                 if  s in commit.msg.lower():
                     commitArray.append([commit.hash, str(commit.committer_date), commit.msg,'Evolution'])
-                    break
+                    break # end early once one is found
             for s in maintainStrings:
                 if  s in commit.msg.lower():
                     commitArray.append([commit.hash, str(commit.committer_date), commit.msg,'Maintainence'])
-                    break
+                    break # end early once one is found
                 
                 
-        # Write the originally scraped information 
-        df = pd.DataFrame(data=commitArray, columns=["Commit Hash", "Commit Date", "Commit Msg", "Categorization"], copy=False)
+            # Write the originally scraped information 
+            df = pd.DataFrame(data=commitArray, columns=["Commit Hash", "Commit Date", "Commit Msg", "Categorization"], copy=False)
         df.to_excel(key + "_output.xlsx", index=False)
     
         # Extract year from the commit date
         df["Year"] = pd.to_datetime(df["Commit Date"], utc=True).dt.year
     
         # Count the number of items per year
-        itemsPerYear = df["Year"].value_counts().sort_index()
-    
-        # Add the count of items per year to the original DataFrame
-        df = df.merge(itemsPerYear.rename("Commits (Bug Fixes?) Found Per Year"), left_on="Year", right_index=True, how="left")
-    
-        # Save the modified DataFrame to Excel
-        df.to_excel("output.xlsx", index=False)
+        totalItemsPerYear = df["Year"].value_counts().sort_index()
+        evoDf = df[df["Categorization"]=='Evolution']
+        evoItemsPerYear = evoDf["Year"].value_counts().sort_index()
+        maintainDf = df[df["Categorization"]=='Maintainence']
+        maintainItemsPerYear = maintainDf["Year"].value_counts().sort_index()
+#        # Add the count of items per year to the original DataFrame
+#        df = df.merge(totalItemsPerYear.rename("Commits (Bug Fixes?) Found Per Year"), left_on="Year", right_index=True, how="left")
+#    
+#        # Save the modified DataFrame to Excel
+#        df.to_excel("output.xlsx", index=False)
     
         # Create a line graph (uncomment if wanted)
-        # plt.plot(itemsPerYear.index, itemsPerYear.values, marker="o")
-        # plt.xlabel("Year")
-        # plt.ylabel("Number of Items")
-        # plt.title("Number of Items Found Each Year")
-        # plt.grid(True)
-        # plt.savefig("line_graph.png")
+        plt.figure()
+        plt.plot(totalItemsPerYear.index, totalItemsPerYear.values, marker="o")
+        plt.plot(evoItemsPerYear.index,evoItemsPerYear.values, marker="s")
+        plt.plot(maintainItemsPerYear.index,maintainItemsPerYear.values, marker="^")
+        plt.xlabel("Year")
+        plt.ylabel("Number of Items")
+        plt.title(key.upper() + "- Number of Items Found Each Year")
+        plt.legend(["All", "Evolution", "Maintainence"])
+        plt.grid(True)
+        plt.show()
+        plt.savefig(key+"_line_graph.png")
 
 if __name__ == "__main__":
     mineRepo()
