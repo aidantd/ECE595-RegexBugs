@@ -14,7 +14,9 @@ import matplotlib.pyplot as plt
 
 def mineRepo():
     repoDict = {"rust": "https://github.com/rust-lang/regex.git", "re2":"https://github.com/google/re2.git"}
-
+    allEngTotal = {}
+    allEngEvo = {}
+    allEngMaintain = {}
     for key in repoDict:
         commitArray = []
         
@@ -71,6 +73,7 @@ def mineRepo():
         print('ready')
         # todo save these across repos for cross analysis
         totalItemsPerYear = df["Year"].value_counts().sort_index()
+        
         evoDf = df[df["Categorization"]=='Evolution']
         
         evoItemsPerYear = evoDf["Year"].value_counts().sort_index()
@@ -78,6 +81,9 @@ def mineRepo():
         
         maintainItemsPerYear = maintainDf["Year"].value_counts().sort_index()
         
+        allEngTotal[key] = totalItemsPerYear
+        allEngEvo[key] = evoItemsPerYear
+        allEngMaintain[key] = maintainItemsPerYear
         
         # these may no longer be needed
 #        # Add the count of items per year to the original DataFrame
@@ -101,7 +107,19 @@ def mineRepo():
         plt.savefig(key+"_line_graph.png")
         
         print('Done with ' + key + ' engine\n')
-
+    
+    plt.figure()
+    keylist = []
+    for key in allEngTotal:
+        plt.plot(allEngTotal[key].index, allEngTotal[key].values, marker="o")
+        keylist.append(key)
+    plt.xlabel("Year")
+    plt.ylabel("Number of Items")
+    plt.title("Number of Items Found Each Year")
+    plt.legend(keylist)
+    plt.grid(True)
+    #plt.show()
+    plt.savefig("AllEngTotal_line_graph.png")
 if __name__ == "__main__":
     mineRepo()
 
