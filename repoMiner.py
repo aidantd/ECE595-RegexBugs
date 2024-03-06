@@ -70,7 +70,6 @@ def mineRepo():
         df["Year"] = pd.to_datetime(df["Commit Date"], utc=True).dt.year
     
 #%% Count the number of items per year
-        print('ready')
         # todo save these across repos for cross analysis
         totalItemsPerYear = df["Year"].value_counts().sort_index()
         
