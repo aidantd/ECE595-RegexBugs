@@ -1,3 +1,5 @@
 # Ignore the following files/directories
 
+# Output files created by tool
+*.png
 *.xlsx
