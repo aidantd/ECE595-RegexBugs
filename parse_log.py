@@ -4,7 +4,7 @@ parse_log.py - Parse change log files to CSV
 To run, call from command line. 
 
 parse_log will read the input files and create new CSV files, or
-overwrite an existing files, that contain columns for the version 
+overwrite existing files, that contain columns for the version 
 number, revision date, and revision description.
 
 Change Logs currently supported:
@@ -19,14 +19,17 @@ ECE59500 - Advanced Software Engineering, Purdue Univ.
 Regex Bugs group project
 """
 
-def parse_log(input_file, output_file):
-    # Read input_file
-    print(f'Attempting to read from: {input_file}')
-    with open(input_file, 'rb') as f:
-        data = f.read()
-        f.close()
-    print(f'Read {len(data)} bytes from {input_file}')
+from enum import Enum
+class LogType(Enum):
+    PCRE = 1
+    PCRE2 = 2
 
+def decode_and_parse_pcre(data):
+    """
+    Parse PCRE Changelog text bytes and return a list with one row per
+    revision, and the following columns: version number, date, description
+    """
+    
     # Decode bytes into text
     #   Note: ChangeLog_pcre.txt was downloaded from web and is encoded in 
     #         iso-8859-1. Using utf-8 will result in an error
@@ -61,10 +64,27 @@ def parse_log(input_file, output_file):
 
         revisions[i] = [ver_number, ver_date, desc]
     
-    # print(revisions[-1])
+    return revisions
 
+def read_file_as_bytes(input_file):
+    """
+    Read changelog file as bytes instead of string to avoid decoding issues
+    """
+    
+    # Read input_file
+    print(f'Attempting to read from: {input_file}')
+    with open(input_file, 'rb') as f:
+        data = f.read()
+        f.close()
+    print(f'Read {len(data)} bytes from {input_file}')
+    return data
+
+def write_revisions_to_file_as_csv(revisions, output_file):
+    """
+    Write revisions data structure to a comma-separated values (CSV) file
+    """
     # Prepare output text
-    t_out = ''
+    t_out = '"Version_Number","Date","Description"\n'
     for rev in revisions:
         t_out += f'"{rev[0]}", "{rev[1]}", "{rev[2]}"\n'
 
@@ -73,8 +93,21 @@ def parse_log(input_file, output_file):
         f.write(t_out)
         f.close()
 
-    print(f'Wrote {len(revisions)} lines to {output_file}')
+    print(f'Wrote {len(revisions)} rows to {output_file}\n')
+
+
+def parse_log(input_file, output_file, log_type = LogType.PCRE):
+    
+    data = read_file_as_bytes(input_file)
+
+    if log_type is LogType.PCRE or LogType.PCRE2:
+        revisions = decode_and_parse_pcre(data)
+    else:
+        raise Exception(f'Unrecognized input log_type: {log_type}')
+
+    write_revisions_to_file_as_csv(revisions, output_file)
+    
 
 if __name__ == "__main__":
-    parse_log('ChangeLog_pcre.txt', 'ChangeLog_pcre.csv')
-    parse_log('ChangeLog_pcre2.txt', 'ChangeLog_pcre2.csv')
+    parse_log('ChangeLog_pcre.txt', 'ChangeLog_pcre.csv', LogType.PCRE)
+    parse_log('ChangeLog_pcre2.txt', 'ChangeLog_pcre2.csv', LogType.PCRE2)
