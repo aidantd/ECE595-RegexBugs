@@ -83,16 +83,11 @@ def write_revisions_to_file_as_csv(revisions, output_file):
     """
     Write revisions data structure to a comma-separated values (CSV) file
     """
-    # Prepare output text
-    t_out = '"Version_Number","Date","Description"\n'
-    for rev in revisions:
-        t_out += f'"{rev[0]}", "{rev[1]}", "{rev[2]}"\n'
-
-    # Output to file
-    with open(output_file,'w') as f:
-        f.write(t_out)
-        f.close()
-
+    import csv
+    with open(output_file,'w',newline='') as csvfile:
+        csvwriter = csv.writer(csvfile, dialect='excel')
+        csvwriter.writerow(['Version','Date','Description'])
+        csvwriter.writerows(revisions)
     print(f'Wrote {len(revisions)} rows to {output_file}\n')
 
 
