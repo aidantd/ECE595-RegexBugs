@@ -44,6 +44,8 @@ def decode_and_parse_pcre(data):
         revisions.append([m.start(), m.end(), m.group(1)])
        
     # Go back through and capture all description text between
+    # revision subtitles. Also, parse revision subtitle into
+    # number and date.
     for i in range(len(revisions)):
         rev = revisions[i]
         start = rev[1]+1
@@ -52,19 +54,35 @@ def decode_and_parse_pcre(data):
         else:
             stop = len(t)
 
+        # Parse revision description into separate rows
+        desc = t[start:stop].split('\n\n')
+        
+        # Parse version number and date from subtitle string
         ver = rev[2].split()
         if len(ver)>3:
             ver = [ver[0], ver[1], '-'.join(ver[2:])]
 
         ver_number = ver[1]
         ver_date = ver[2]
-        desc = t[start:stop].strip()
-        desc = desc.replace('\n', ' ')
-        desc = desc.replace('"', "'") # make sure all quotes are single-quotes
 
         revisions[i] = [ver_number, ver_date, desc]
     
-    return revisions
+    # Flatten description lists
+    flat_result = []
+    for rev in revisions:
+        for d in rev[2]:
+            # Clean up line for easier importing/reading later
+            d = d.replace('\n','').replace('  ',' ').replace('    ',' ').strip()
+            if len(d)<1:
+                # skip empty lines
+                continue
+            # Avoid #NAME? error in Excel for leading '-' character
+            if d[0] == '-':
+                d = '*' + d[1:]
+
+            flat_result.append([rev[0], rev[1], d])
+
+    return flat_result
 
 def read_file_as_bytes(input_file):
     """
