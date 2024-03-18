@@ -1,7 +1,8 @@
 from openai import OpenAI
 import time
 
-client = OpenAI( api_key="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")
+# Enter your api key here
+client = OpenAI(api_key="")
 
 completion = client.chat.completions.create(
     model="gpt-3.5-turbo",
