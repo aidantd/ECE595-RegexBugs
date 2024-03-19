@@ -74,7 +74,7 @@ def decode_and_parse_pcre(data):
     for rev in revisions:
         for d in rev[2]:
             # Clean up line for easier importing/reading later
-            d = d.replace('\n','') # remove line breaks within text block
+            d = d.replace('\n',' ') # remove line breaks within text block
             d = d.replace('  ',' ') # remove two-space indents
             d = d.replace('    ',' ') # remove four-space indents
             d = d.strip() # remove leading and/or trailing whitespace
