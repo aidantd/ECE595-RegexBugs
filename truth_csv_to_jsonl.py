@@ -58,7 +58,7 @@ def read_truth_file_from_csv(truth_file):
 class TrainingData:
     def __init__(self, system_role, user_input, expected_output) -> None:
         self.system_role = system_role
-        self.user_input = user_input
+        self.user_input = user_input.replace('"',"'").replace('\\','')
         self.expected_output = expected_output
 
 def construct_message_data(change_data, system_role=SYSTEM_ROLE):
@@ -66,9 +66,9 @@ def construct_message_data(change_data, system_role=SYSTEM_ROLE):
 
     for change in change_data:
         if change.is_evolution:
-            expected_output = 'This change includes evolution.'
+            expected_output = 'Evolution'
         else:
-            expected_output = 'This change was only for maintenance.'
+            expected_output = 'Maintenance'
 
         x = TrainingData(system_role, change.description, expected_output)
         message_data.append(x)
@@ -80,8 +80,8 @@ def convert_to_jsonl(message_data):
     for message in message_data:
         system = '{"role": "system", "content": "' + message.system_role + '"}'
         user = '{"role": "user", "content": "' + message.user_input + '"}'
-        expected = '{"role": "assistant", "content", "' + message.expected_output + '"}'
-        line = '{"messages": [' + system + ', ' + user + ', ' + expected + ']}'
+        expected = '{"role": "assistant", "content": "' + message.expected_output + '"}'
+        line = '{"messages": [' + system + ', ' + user + ', ' + expected + ']}\n'
         output_text.append(line)
     return output_text
 
@@ -91,19 +91,22 @@ def write_jsonl(output_text, output_file):
         f.close()
     print(f'Wrote {len(output_text)} lines to {output_file}')
 
-def create_jsonl(truth_file, output_file, log_type=LogType.PCRE):
+def create_jsonl(truth_file, output_file_prefix, log_type=LogType.PCRE):
     # Read truth file
     truth_data = read_truth_file_from_csv(truth_file)
-    
+
     # Create output data structure
-    message_data = construct_message_data(truth_data)
+    message_data_train = construct_message_data(truth_data[::2])
+    message_data_test = construct_message_data(truth_data[1::2])
 
     # Create output text
-    output_text = convert_to_jsonl(message_data)
+    output_text_train = convert_to_jsonl(message_data_train)
+    output_text_test = convert_to_jsonl(message_data_test)
     
-    # Write to output file
-    write_jsonl(output_text, output_file)
+    # Write Training data split to output file (_train.jsonl)
+    write_jsonl(output_text_train, output_file_prefix + '_train.jsonl')
+    write_jsonl(output_text_test, output_file_prefix + '_test.jsonl')
 
 
 if __name__ == "__main__":
-    create_jsonl('ChangeLog_pcre2_truth.csv', 'pcre2_truth.jsonl', LogType.PCRE)
+    create_jsonl('ChangeLog_pcre2_truth.csv', 'pcre2', LogType.PCRE)
