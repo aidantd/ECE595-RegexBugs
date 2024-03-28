@@ -38,6 +38,9 @@ with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code
     with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/re2_commits.jsonl", 'r') as file:
         commitsToCheck = [line.strip() for line in file.readlines()]
 
+    totalCommits = len(commitsToCheck)
+    currentCommit = 1
+
     for commit in commitsToCheck:
         embedding = getEmbedding(commit)
         centroid = calculateCentroid(embedding)
@@ -51,4 +54,6 @@ with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code
             category = "Maintenance"
 
         output_file.write(category + "\n")
-        print("We wrote something")
+
+        print("Have categorized commit " + str(currentCommit) + " out of " + str(totalCommits))
+        currentCommit += 1
