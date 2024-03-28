@@ -1,8 +1,5 @@
-from openai import OpenAI
-import json
-
-
 from transformers import AutoTokenizer, AutoModel
+import json
 import torch
 import numpy as np
 
@@ -43,23 +40,16 @@ with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code
         commitsToCheck = [line.strip() for line in file.readlines()]
 
     for commit in commitsToCheck:
-        # sentence = commit["message"]
-        # commit_hash = commit["hash"]
-
-        # Calculate embeddings for the commit
         embedding = getEmbedding(commit)
         centroid = calculateCentroid(embedding)
 
-        # Calculate distances from centroids
         evolution_distance = np.linalg.norm(evolutionCentroid - centroid)
         maintenance_distance = np.linalg.norm(maintenanceCentroid - centroid)
 
-        # Assign commit to the category with the closest centroid
         if evolution_distance < maintenance_distance:
             category = "Evolution"
         else:
             category = "Maintenance"
 
-        # Write the hash and categorization to the output file
         output_file.write(category + "\n")
         print("We wrote something")
