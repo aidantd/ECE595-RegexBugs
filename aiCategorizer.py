@@ -35,7 +35,6 @@ with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code
     output_file.write("Categorization\n")
     output_file.write("-----------------------\n")
 
-    # Iterate through commits from the file
     with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/re2_commits.jsonl", 'r') as file:
         commitsToCheck = [line.strip() for line in file.readlines()]
 
