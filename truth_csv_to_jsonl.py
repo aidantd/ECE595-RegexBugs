@@ -44,10 +44,13 @@ def read_truth_file_from_csv(truth_file):
         print(f'File has the following headers:\n\t{', '.join(header)}')
         data = []
         for row in csvreader:
+            change_description = row[2]
             if row[3] == '':
                 # change not yet graded, skip
                 continue
-            data.append(ChangeData(row[2], row[3].lower()=='y'))
+            else:
+                is_evolution = row[3].lower()=='y'
+            data.append(ChangeData(change_description, is_evolution))
             counter += 1
     
         csvfile.close()    
