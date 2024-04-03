@@ -31,11 +31,11 @@ maintenanceEmbeddings = [getEmbedding(sentence) for sentence in maintenanceCommi
 evolutionCentroid = calculateCentroid(evolutionEmbeddings)
 maintenanceCentroid = calculateCentroid(maintenanceEmbeddings)
 
-with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/categorizations.txt", 'w') as output_file:
+with open("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/categorizations.txt", 'w') as output_file:
     output_file.write("Categorization\n")
     output_file.write("-----------------------\n")
 
-    with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/re2_commits.jsonl", 'r') as file:
+    with open("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/re2_commits.jsonl", 'r') as file:
         commitsToCheck = [line.strip() for line in file.readlines()]
 
     totalCommits = len(commitsToCheck)
