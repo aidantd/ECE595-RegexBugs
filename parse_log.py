@@ -48,23 +48,25 @@ def decode_and_parse_pcre(data):
     # number and date.
     for i in range(len(revisions)):
         rev = revisions[i]
+
+        # Determine indices for revision description text
         start = rev[1]+1
         if i<len(revisions)-1:
             stop = revisions[i+1][0]
         else:
             stop = len(t)
 
-        # Parse revision description into separate rows
+        # Parse revision description text blocks into separate rows
         desc = t[start:stop].split('\n\n')
         
         # Parse version number and date from subtitle string
         ver = rev[2].split()
+        ver_number = ver[1]
         if len(ver)>3:
             ver = [ver[0], ver[1], '-'.join(ver[2:])]
-
-        ver_number = ver[1]
         ver_date = ver[2]
 
+        # Reconstruct revision element and update array
         revisions[i] = [ver_number, ver_date, desc]
     
     # Flatten description lists
@@ -72,11 +74,14 @@ def decode_and_parse_pcre(data):
     for rev in revisions:
         for d in rev[2]:
             # Clean up line for easier importing/reading later
-            d = d.replace('\n','').replace('  ',' ').replace('    ',' ').strip()
+            d = d.replace('\n',' ') # remove line breaks within text block
+            d = d.replace('  ',' ') # remove two-space indents
+            d = d.replace('    ',' ') # remove four-space indents
+            d = d.strip() # remove leading and/or trailing whitespace
             if len(d)<1:
                 # skip empty lines
                 continue
-            # Avoid #NAME? error in Excel for leading '-' character
+            # Avoid #NAME? error in Excel for leading '-' character, use '*' instead
             if d[0] == '-':
                 d = '*' + d[1:]
 
