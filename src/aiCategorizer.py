@@ -42,12 +42,6 @@ def main():
     evolutionJson = parseTrainingData(dataTypeEvolution)
     maintenanceJson = parseTrainingData(dataTypeMaintenance)
 
-    # for content in evolutionJson:
-    #     print("Contents:", content)
-
-    # for content in maintenanceJson:
-    #     print("Contents:", content)
-
     evolutionEmbeddings = [getEmbedding(data) for data in evolutionJson]
     maintenanceEmbeddings = [getEmbedding(data) for data in maintenanceJson]
 
@@ -56,19 +50,22 @@ def main():
 
     # # Aidan Mac: /Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/
     # # Aidan Linux: /home/aidan/Documents/School/ECE595/ECE595-RegexBugs/
-
     with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/categorizations.txt", 'w') as output_file:
         output_file.write("Categorization\n")
         output_file.write("-----------------------\n")
 
-        with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/pcre_commits.jsonl", 'r') as file:
-            commitsToCheck = [line.strip() for line in file.readlines()]
+        with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/re2_commits.jsonl", 'r') as file:
+            # commitsToCheck = [line.strip() for line in file.readlines()]
+            commitsToCheck = []
+            for commit in file:
+                data = json.loads(commit)
+                commitsToCheck.append(data["message"])
 
-        totalCommits = len(commitsToCheck)
         currentCommit = 1
+        totalCommits = len(commitsToCheck)
 
-        for commit in commitsToCheck:
-            embedding = getEmbedding(commit)
+        for commitMessage in commitsToCheck:
+            embedding = getEmbedding(commitMessage)
             # print(embedding + "\n")
             centroid = calculateCentroid(embedding)
 
