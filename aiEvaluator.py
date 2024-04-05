@@ -1,6 +1,5 @@
 from openai import OpenAI
 import json
-import time
 from dotenv import load_dotenv
 
 
