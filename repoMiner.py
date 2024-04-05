@@ -11,10 +11,38 @@ import matplotlib.pyplot as plt
 # Notes:
 # TODO: update these lists as time goes on, maybe add additional criteria for evolution since a lot are being pulled
 # TODO: Maybe use code churn methods to see average commit , or lines count, could also incop dmm params for additional analysis
-
+def plotAllEngine(mode,dataDict):
+    plt.figure()
+    keylist = []
+    for key in dataDict:
+        plt.plot(dataDict[key].index, dataDict[key].values, marker="o")
+        keylist.append(key)
+    plt.xlabel("Year")
+    plt.ylabel("Number of Items")
+    plt.title( mode + " Items Found Each Year")
+    plt.legend(keylist)
+    plt.grid(True)
+    #plt.show()
+    plt.savefig(mode + "_EngTotal_line_graph.png")
+    
+def plotSingleEngine(totalItemsPerYear,evoItemsPerYear,maintainItemsPerYear,key):
+    plt.figure()
+    plt.plot(totalItemsPerYear.index, totalItemsPerYear.values, marker="o")
+    plt.plot(evoItemsPerYear.index,evoItemsPerYear.values, marker="s")
+    plt.plot(maintainItemsPerYear.index,maintainItemsPerYear.values, marker="^")
+    plt.xlabel("Year")
+    plt.ylabel("Number of Items")
+    plt.title(key.upper() + "- Number of Items Found Each Year")
+    plt.legend(["All", "Evolution", "Maintenance"])
+    plt.grid(True)
+    #plt.show()
+    plt.savefig(key+"_line_graph.png")
+    
+    
 def mineRepo():
     repoDict = {"rust": "https://github.com/rust-lang/regex.git",
-                "re2":"https://github.com/google/re2.git","pcre" :"https://github.com/PCRE/pcre2.git"
+                "re2":"https://github.com/google/re2.git",
+                "pcre" :"https://github.com/PCRE/pcre2.git"
                 }
     allEngTotal = {}
     allEngEvo = {}
@@ -83,19 +111,41 @@ def mineRepo():
         df["Year"] = pd.to_datetime(df["Commit Date"], utc=True).dt.year
     
 #%% Count the number of items per year
+        
+        
         # todo save these across repos for cross analysis
         totalItemsPerYear = df["Year"].value_counts().sort_index()
         
         evoDf = df[df["Categorization"]=='Evolution']
-        
         evoItemsPerYear = evoDf["Year"].value_counts().sort_index()
-        maintainDf = df[df["Categorization"]=='Maintenance']
         
+        maintainDf = df[df["Categorization"]=='Maintenance']
         maintainItemsPerYear = maintainDf["Year"].value_counts().sort_index()
         
         allEngTotal[key] = totalItemsPerYear
         allEngEvo[key] = evoItemsPerYear
         allEngMaintain[key] = maintainItemsPerYear
+        
+        
+        # get stats for lines
+        avgLinesTotal = df["Number of Lines"].mean()
+        stdLinesTotal = df["Number of Lines"].std()
+        avgLinesEvo = evoDf["Number of Lines"].mean()
+        stdLinesEvo = evoDf["Number of Lines"].std()
+        avgLinesMaintain = maintainDf["Number of Lines"].mean()
+        stdLinesMaintain = maintainDf["Number of Lines"].std()
+        
+        x = ["All", "Evolution", "Maintenance"]
+        y = [avgLinesTotal,avgLinesEvo,avgLinesMaintain]
+        yerr = [stdLinesTotal,stdLinesEvo,stdLinesMaintain]
+        fig, ax = plt.subplots()
+        ax.errorbar(x,y,yerr,fmt='o', linewidth=2, capsize=6)
+        plt.show()
+#        plt.xlabel("Year")
+#        plt.ylabel("Number of Items")
+#        plt.title(key.upper() + "- Number of Items Found Each Year")
+#        plt.legend(["All", "Evolution", "Maintenance"])
+#        plt.grid(True)
         
         # these may no longer be needed
 #        # Add the count of items per year to the original DataFrame
@@ -105,36 +155,21 @@ def mineRepo():
 #        df.to_excel("output.xlsx", index=False)
     
 #%% Create a line graph (uncomment if wanted)
-        # TODO: update plotting to comparte different engines to each other
-        plt.figure()
-        plt.plot(totalItemsPerYear.index, totalItemsPerYear.values, marker="o")
-        plt.plot(evoItemsPerYear.index,evoItemsPerYear.values, marker="s")
-        plt.plot(maintainItemsPerYear.index,maintainItemsPerYear.values, marker="^")
-        plt.xlabel("Year")
-        plt.ylabel("Number of Items")
-        plt.title(key.upper() + "- Number of Items Found Each Year")
-        plt.legend(["All", "Evolution", "Maintenance"])
-        plt.grid(True)
-        #plt.show()
-        plt.savefig(key+"_line_graph.png")
+        plotSingleEngine(totalItemsPerYear,evoItemsPerYear,maintainItemsPerYear,key)
         
         print('Done with ' + key + ' engine\n')
         # end engine loop
-    plt.figure()
-    keylist = []
-    for key in allEngTotal:
-        plt.plot(allEngTotal[key].index, allEngTotal[key].values, marker="o")
-        keylist.append(key)
-    plt.xlabel("Year")
-    plt.ylabel("Number of Items")
-    plt.title("Number of Items Found Each Year")
-    plt.legend(keylist)
-    plt.grid(True)
-    #plt.show()
-    plt.savefig("AllEngTotal_line_graph.png")
     
+
+    plotAllEngine('All',allEngTotal)
+    plotAllEngine('Evolution',allEngEvo)    
+    plotAllEngine('Maintenance',allEngMaintain)    
+        
+        
     for key in keywordMatchCount:
         print(key+': '+str(keywordMatchCount[key]) + '\n')
+        
+        
+        
 if __name__ == "__main__":
     mineRepo()
-
