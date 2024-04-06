@@ -23,13 +23,13 @@ def calculateCentroid(embeddings):
 def parseTrainingData(dataType):
     parsedData = []
     if(dataType == dataTypeEvolution):
-        with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingDataEvolution.jsonl', 'r') as file:
+        with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataEvolution.jsonl', 'r') as file:
             for commit in file:
                 data = json.loads(commit)
                 parsedData.append(data["message"])
 
     elif(dataType == dataTypeMaintenance):
-        with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingDataMaintenance.jsonl', 'r') as file:
+        with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataMaintenance.jsonl', 'r') as file:
             for commit in file:
                 data = json.loads(commit)
                 parsedData.append(data["message"])
@@ -54,8 +54,7 @@ def main():
         output_file.write("Categorization\n")
         output_file.write("-----------------------\n")
 
-        with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/re2_commits.jsonl", 'r') as file:
-            # commitsToCheck = [line.strip() for line in file.readlines()]
+        with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/uncategorizedData/re2_commits copy_sorted.jsonl", 'r') as file:
             commitsToCheck = []
             for commit in file:
                 data = json.loads(commit)

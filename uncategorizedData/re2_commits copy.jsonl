@@ -1,4 +1,4 @@
-{"repository": "re2", "hash": "0a38cba1d9dcfbd713141095582597af700f22e9", "date": "2010-03-02 17:17:51-08:00", "message": "initial release"}
+{"repository": "re2", "hash": "0a38cba1d9dcfbd713141095582597af700f22e9", "date": "2010-03-02 17:17:51-08:00", "message": "initial "release""}
 {"repository": "re2", "hash": "faf5bafc3d75b85010e20613b7e884f154c1ee44", "date": "2010-03-10 15:08:36-08:00", "message": "no pcre by default"}
 {"repository": "re2", "hash": "00fd79c61ea538c6a58c63e7ca2a1e29ced772e1", "date": "2010-03-10 15:08:48-08:00", "message": "change basename for graphs"}
 {"repository": "re2", "hash": "d6d31840ca085d93e74a171eb967caa1d852085c", "date": "2010-03-10 15:09:08-08:00", "message": "various updates and tweaks from Google"}
