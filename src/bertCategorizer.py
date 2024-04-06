@@ -47,12 +47,13 @@ def main():
 
     evolutionCentroid = calculateCentroid(evolutionEmbeddings)
     maintenanceCentroid = calculateCentroid(maintenanceEmbeddings)
+    
+    print("Evolution Centroid: " + str(evolutionCentroid) + "\n")
+    print("Maintenance Centroid: " + str(maintenanceCentroid) + "\n")
 
     # # Aidan Mac: /Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/
     # # Aidan Linux: /home/aidan/Documents/School/ECE595/ECE595-RegexBugs/
-    with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/categorizations.txt", 'w') as output_file:
-        output_file.write("Categorization\n")
-        output_file.write("-----------------------\n")
+    with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/categorizationsRE2.txt", 'w') as output_file:
 
         with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/uncategorizedData/re2_commits copy_sorted.jsonl", 'r') as file:
             commitsToCheck = []
@@ -68,15 +69,31 @@ def main():
             # print(embedding + "\n")
             centroid = calculateCentroid(embedding)
 
-            evolution_distance = np.linalg.norm(evolutionCentroid - centroid)
-            maintenance_distance = np.linalg.norm(maintenanceCentroid - centroid)
+            # evolution_distance = np.linalg.norm(evolutionCentroid - centroid)
+            # maintenance_distance = np.linalg.norm(maintenanceCentroid - centroid)
 
-            if evolution_distance < maintenance_distance:
+            # if evolution_distance < maintenance_distance:
+            #     category = "Evolution"
+            # else:
+            #     category = "Maintenance"
+            
+            # Calculate cosine similarity
+            evolution_similarity = np.dot(evolutionCentroid, centroid) / (np.linalg.norm(evolutionCentroid) * np.linalg.norm(centroid))
+            maintenance_similarity = np.dot(maintenanceCentroid, centroid) / (np.linalg.norm(maintenanceCentroid) * np.linalg.norm(centroid))
+
+            # Determine category based on cosine similarity
+            if evolution_similarity < maintenance_similarity:
                 category = "Evolution"
             else:
                 category = "Maintenance"
 
-            output_file.write(category + "\n")
+
+            output_file.write("----------------------------------------------------------------------" + "\n")
+            output_file.write("Category: " + category + "\n")
+            output_file.write("Evolution Distance: " + str(evolution_similarity) + "\n")
+            output_file.write("Maintenance Distance: " + str(maintenance_similarity) + "\n")
+            output_file.write("Commit Msg: " + commitMessage + "\n")
+            output_file.write("----------------------------------------------------------------------" + "\n")
 
             print("Have categorized commit " + str(currentCommit) + " out of " + str(totalCommits))
             currentCommit += 1
