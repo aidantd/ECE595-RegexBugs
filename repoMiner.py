@@ -46,7 +46,6 @@ def mineRepo():
         "rust": "https://github.com/rust-lang/regex.git",
         "re2": "https://github.com/google/re2.git",
         "pcre": "https://github.com/PCRE/pcre2.git",
-        "java": "https://github.com/openjdk/jdk",
     }
     allEngTotal = {}
     allEngEvo = {}
