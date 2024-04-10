@@ -67,8 +67,10 @@ def eval_file(data_path):
 
 if __name__ == '__main__':
     file_names = ['pcre2_test', 'pcre2_train']
+    data_dir = 'data/'
     for file_name in file_names:
 
+        file_name = data_dir + file_name # append data directory to base file name
         data_paths = [file_name + "_output_base.jsonl", file_name + "_output_ft.jsonl"]
         for data_path in data_paths:
             eval_file(data_path)

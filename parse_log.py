@@ -127,5 +127,5 @@ def parse_log(input_file, output_file, log_type = LogType.PCRE):
     
 
 if __name__ == "__main__":
-    parse_log('ChangeLog_pcre.txt', 'ChangeLog_pcre.csv', LogType.PCRE)
-    parse_log('ChangeLog_pcre2.txt', 'ChangeLog_pcre2.csv', LogType.PCRE2)
+    parse_log('data/ChangeLog_pcre.txt', 'data/ChangeLog_pcre.csv', LogType.PCRE)
+    parse_log('data/ChangeLog_pcre2.txt', 'data/ChangeLog_pcre2.csv', LogType.PCRE2)

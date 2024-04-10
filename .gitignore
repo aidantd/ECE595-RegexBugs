@@ -5,6 +5,7 @@
 *.xlsx
 *.csv
 *.jsonl
+data/*
 
 # API key files
 *.env

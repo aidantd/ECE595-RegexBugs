@@ -145,4 +145,4 @@ def main(truth_file, output_file_prefix, log_type=LogType.PCRE):
 
 
 if __name__ == "__main__":
-    main('ChangeLog_pcre2_all.csv', 'pcre2', LogType.PCRE)
+    main('data/ChangeLog_pcre2_all.csv', 'data/pcre2', LogType.PCRE)

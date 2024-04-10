@@ -28,6 +28,7 @@ OPENAI_API_KEY=
 To train a custom model, or test the accuracy of a given model, you will need to manually label several changes as either "Maintenance" or "Evolution". To assist with this task, `parse_log.py` will convert the original changelog text to an Excel file with a row for each text block in the change log. This will result in multiple change entries for a single revision number, but will be easier to label and process. This is also closer to how each commit is graded for changes in Git repositories.
 
 1. Run `parse_log.py` to convert `ChangeLog_pcre2.txt` to `ChangeLog_pcre2.csv`
+    >Note: The script expects all input files to be in the `data/` directory, and will put all output files there as well.
 2. Open `ChangeLog_pcre2.csv` in Excel and add columns for "Evolution?", "New Features", and "Comments"
 3. Label several changes as either "Y" or "N" in the "Evolution?" column
 4. Save file as a CSV named `ChangeLog_pcre2_all.txt`

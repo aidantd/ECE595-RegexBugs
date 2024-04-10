@@ -9,9 +9,11 @@ load_dotenv()  # take environment variables from .env.
 client = OpenAI()
 
 models = ["gpt-3.5-turbo", "ft:gpt-3.5-turbo-1106:personal:changelog-pcre2:95whKLu9"]
+data_dir = 'data/'
 file_names = ['pcre2_test', 'pcre2_train','pcre2_all']
 for file_name in file_names:
 
+    file_name = data_dir + file_name # append data directory to base file name
     data_path = file_name + ".jsonl"
     output_files = [file_name + "_output_base.jsonl", file_name + "_output_ft.jsonl"]
     for output_file, model in zip(output_files, models):
