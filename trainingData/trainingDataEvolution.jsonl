@@ -1,9 +1,9 @@
-{"message": "inital commit"}
-{"message": "inital release"}
-{"message": "Add in this new feature"}
-{"message": "Change the architecture we are utilizing to protect against cyber-attacks"}
-{"message": "Add basic project files"}
-{"message": "Add basic configuration files"}
-{"message": "Preliminary work towards adapting new expression interpretation logic"}
-{"message": "Create new unit tests"}
-{"message": "Start the project"}
+{"message": "inital commit", "label": "0"}
+{"message": "inital release", "label": "0"}
+{"message": "Add in this new feature", "label": "0"}
+{"message": "Change the architecture we are utilizing to protect against cyber-attacks", "label": "0"}
+{"message": "Add basic project files", "label": "0"}
+{"message": "Add basic configuration files", "label": "0"}
+{"message": "Preliminary work towards adapting new expression interpretation logic", "label": "0"}
+{"message": "Create new unit tests", "label": "0"}
+{"message": "Start the project", "label": "0"}

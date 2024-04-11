@@ -1,13 +1,13 @@
-{"message": "Fix bug"}
-{"message": "Remove deprecated files"}
-{"message": "Remove deprecated code"}
-{"message": "Add documentation for the code base"}
-{"message": "Add documentation for the function headers"}
-{"message": "Cleanup the code base"}
-{"message": "Get rid of the remaining TODOs in the code"}
-{"message": "Fix issue where an edge-case caused a hard-fault"}
-{"message": "Add more error codes to the system so we have better error handeling"}
-{"message": "Add missing punctuation in docs"}
-{"message": "Fix grammer in docs"}
-{"message": "Update syntax"}
-{"message": "Add comments"}
+{"message": "Fix bug", "label": "1"}
+{"message": "Remove deprecated files", "label": "1"}
+{"message": "Remove deprecated code", "label": "1"}
+{"message": "Add documentation for the code base", "label": "1"}
+{"message": "Add documentation for the function headers", "label": "1"}
+{"message": "Cleanup the code base", "label": "1"}
+{"message": "Get rid of the remaining TODOs in the code", "label": "1"}
+{"message": "Fix issue where an edge-case caused a hard-fault", "label": "1"}
+{"message": "Add more error codes to the system so we have better error handeling", "label": "1"}
+{"message": "Add missing punctuation in docs", "label": "1"}
+{"message": "Fix grammer in docs", "label": "1"}
+{"message": "Update syntax", "label": "1"}
+{"message": "Add comments", "label": "1"}

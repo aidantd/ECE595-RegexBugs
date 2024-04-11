@@ -6,6 +6,9 @@
 *.csv
 *.jsonl
 
+# Model Folders (They are far too large)
+models/
+
 # API key files
 *.env
 *.txt
