@@ -4,4 +4,8 @@
 *.png
 *.xlsx
 *.csv
+*.jsonl
+
+# API key files
+*.env
 *.txt
