@@ -1,12 +1,13 @@
-{"repository": "re2", "hash": "db46d1e11eee1ad501e8e08411747468d1d6a87e", "date": "2024-03-17 10:04:57+00:00", "message": "Bump versions of actions to latest releases.\n\nNote that this isn't the same as pinning to commits as in specifying\ntheir hashes. Note also that this isn't as ugly either. It's a minor\nimprovement over floating (i.e. major version only) tags/branches.\n\nChange-Id: Id88fe81281885aff41f2625b3b71f945266c8677\nReviewed-on: https://code-review.googlesource.com/c/re2/+/62871\nReviewed-by: Alex Chernyakhovsky <achernya@google.com>\nReviewed-by: Paul Wankadia <junyer@google.com>"}
-{"repository": "re2", "hash": "ddb3414a8f65ff03e63bbd1932fb2164cec69bf1", "date": "2024-03-11 11:18:05+00:00", "message": "Add Clang 18 to the build matrix.\n\n... and remove Clang 15 so that we continue to\ntest with only the three most recent releases.\n\nChange-Id: Ib1eaa20b2c988bb53027dd3e01551d5d95058e24\nReviewed-on: https://code-review.googlesource.com/c/re2/+/62830\nReviewed-by: Perry Lorier <perryl@google.com>\nReviewed-by: Paul Wankadia <junyer@google.com>"}
-{"repository": "re2", "hash": "f9550c3f7207f946a45bbccd1814b12b136aae72", "date": "2024-02-19 16:37:14+00:00", "message": "Fix more ancient bugs around Latin-1 handling.\n\nIt turned out that case folding assumed UTF-8 mode, so\nwe would fold, say, 0xD1 to 0xF1 even in Latin-1 mode.\n\nFixes #477.\n\nChange-Id: I73aa5c8e33ee0c6041c54e3a7268635915960f64\nReviewed-on: https://code-review.googlesource.com/c/re2/+/62714\nReviewed-by: Alex Chernyakhovsky <achernya@google.com>\nReviewed-by: Paul Wankadia <junyer@google.com>"}
-{"repository": "pcre", "hash": "8a4e58b8294af596ec7f1c5388b0af07b41eeda9", "date": "2014-09-19 07:43:39+00:00", "message": "API documentation and a lot of little related changes to the code.\n\n\ngit-svn-id: svn://vcs.pcre.org/pcre2/code/trunk@74 6239d852-aaf2-0410-a92c-79f79f948069"}
-{"repository": "pcre", "hash": "b0fb25ca08948ec67e5ab98526d5fbf1e4f978b6", "date": "2014-10-14 16:23:57+00:00", "message": "Partial documentation and partial code tweaks.\n\n\ngit-svn-id: svn://vcs.pcre.org/pcre2/code/trunk@110 6239d852-aaf2-0410-a92c-79f79f948069"}
-{"repository": "pcre", "hash": "721103b942382793b233c469e2ad8dc3297eb3ad", "date": "2014-10-21 16:33:30+00:00", "message": "A lot more documentation.\n\n\ngit-svn-id: svn://vcs.pcre.org/pcre2/code/trunk@121 6239d852-aaf2-0410-a92c-79f79f948069"}
-{"repository": "pcre", "hash": "7ca29cf6351a2d5e80540bea2d279dc3e6689b51", "date": "2014-12-15 11:17:05+00:00", "message": "Small code tidy.\n\n\ngit-svn-id: svn://vcs.pcre.org/pcre2/code/trunk@175 6239d852-aaf2-0410-a92c-79f79f948069"}
-{"repository": "pcre", "hash": "cfae5759e49e266d9f0f1bcbadb1c815fc80eb5e", "date": "2015-03-25 19:26:27+00:00", "message": "Fix bad memory computation for \"(*UTF)[\\S\\V\\H]\" (a pattern with a negative \nclass (\\S) and explicit wide characters).\n\n\ngit-svn-id: svn://vcs.pcre.org/pcre2/code/trunk@233 6239d852-aaf2-0410-a92c-79f79f948069"}
-{"repository": "pcre", "hash": "de8616195bf48e05d1a9e6b0ba984cd8ae5163a3", "date": "2015-03-27 17:45:02+00:00", "message": "Fix mutual recursion inside other parentheses stack overflow bug.\n\n\ngit-svn-id: svn://vcs.pcre.org/pcre2/code/trunk@234 6239d852-aaf2-0410-a92c-79f79f948069"}
-{"repository": "re2", "hash": "0fde84a89f9e1fe6cb64d59579cd3bf0fbe3fd36", "date": "2015-07-28 10:37:42+00:00", "message": "Fix MSVC warning C4244.\n\nThis warns about potential value truncation.  Instead of disabling\nthe warning, fix it, generally by adding explicit casts to make it\nclear that a type change is occurring.\n\nChange-Id: I737f9080a86adeaa2afb461fe9429dc1dcb5d6c3\nReviewed-on: https://code-review.googlesource.com/1441\nReviewed-by: Paul Wankadia <junyer@google.com>"}
-{"repository": "re2", "hash": "10abd2102b1459f1e7d4e80c1507b5b6d52802dc", "date": "2015-07-31 07:02:38+00:00", "message": "Fix bugs in the coalesce and simplify logic.\n\nThe coalesce logic was not building new repeats and captures correctly.\nThe simplify logic was not building new captures correctly.\n\nChange-Id: I5a7edebada030c909d13253b43afcaa14bb9aada\nReviewed-on: https://code-review.googlesource.com/3273\nReviewed-by: Paul Wankadia <junyer@google.com>"}
-{"repository": "re2", "hash": "cd3c4ddb55a27971da1ef26a15026215c24e8f95", "date": "2016-04-07 13:23:06+00:00", "message": "Fix the install tests after commit 908a6fa.\n\nChange-Id: I815890dcd393d294b4002454eaefc6b4f0be947a\nReviewed-on: https://code-review.googlesource.com/4484\nReviewed-by: Paul Wankadia <junyer@google.com>"}
+{"message": "Fix bug"}
+{"message": "Remove deprecated files"}
+{"message": "Remove deprecated code"}
+{"message": "Add documentation for the code base"}
+{"message": "Add documentation for the function headers"}
+{"message": "Cleanup the code base"}
+{"message": "Get rid of the remaining TODOs in the code"}
+{"message": "Fix issue where an edge-case caused a hard-fault"}
+{"message": "Add more error codes to the system so we have better error handeling"}
+{"message": "Add missing punctuation in docs"}
+{"message": "Fix grammer in docs"}
+{"message": "Update syntax"}
+{"message": "Add comments"}

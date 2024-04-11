@@ -48,12 +48,14 @@ def main():
     evolutionCentroid = calculateCentroid(evolutionEmbeddings)
     maintenanceCentroid = calculateCentroid(maintenanceEmbeddings)
     
+    model.train()
+    
     print("Evolution Centroid: " + str(evolutionCentroid) + "\n")
     print("Maintenance Centroid: " + str(maintenanceCentroid) + "\n")
 
     # # Aidan Mac: /Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/
     # # Aidan Linux: /home/aidan/Documents/School/ECE595/ECE595-RegexBugs/
-    with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/categorizationsRE2.txt", 'w') as output_file:
+    with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/categorizationsRE2_sorted_2.txt", 'w') as output_file:
 
         with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/uncategorizedData/re2_commits copy_sorted.jsonl", 'r') as file:
             commitsToCheck = []
