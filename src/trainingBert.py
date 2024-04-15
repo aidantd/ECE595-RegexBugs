@@ -12,7 +12,8 @@ def parseTrainingData(dataType):
     parsedData = []
     label_map = {'0': dataTypeEvolution, '1': dataTypeMaintenance}
     if dataType == dataTypeEvolution:
-        with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataEvolution.jsonl', 'r') as file:
+        # with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataEvolution.jsonl', 'r') as file:
+        with open('/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/trainingData/trainingDataEvolution.jsonl', 'r') as file:
             for commit in file:
                 data = json.loads(commit)
                 message = data["message"]
@@ -20,7 +21,8 @@ def parseTrainingData(dataType):
                 parsedData.append((message, label))
 
     elif dataType == dataTypeMaintenance:
-        with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataMaintenance.jsonl', 'r') as file:
+        # with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataMaintenance.jsonl', 'r') as file:
+        with open('/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/trainingData/trainingDataMaintenance.jsonl', 'r') as file:
             for commit in file:
                 data = json.loads(commit)
                 message = data["message"]
@@ -72,10 +74,10 @@ def main():
     model.to(device)
     model.train()
 
-    epochs = 10
-    for epoch in range(epochs):
+    trainingIterations = 3
+    for iteration in range(trainingIterations):
         total_loss = 0
-        for batch in tqdm(train_loader, desc=f'Epoch {epoch + 1}/{epochs}'):
+        for batch in tqdm(train_loader, desc=f'Iteration {iteration + 1}/{trainingIterations}'):
             input_ids = batch['input_ids'].to(device)
             attention_mask = batch['attention_mask'].to(device)
             labels = batch['label'].to(device)
@@ -89,10 +91,15 @@ def main():
             total_loss += loss.item()
 
         average_loss = total_loss / len(train_loader)
-        print(f"Epoch {epoch + 1}/{epochs}, Average Loss: {average_loss:.4f}")
+        print(f"Iteration {iteration + 1}/{trainingIterations}, Average Loss: {average_loss:.4f}")
 
-    model.save_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/models")
-    tokenizer.save_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/models")
+    # Aidan Mac
+    # model.save_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/models")
+    # tokenizer.save_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/models")
+    
+    # Aidan Linux
+    model.save_pretrained("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/models")
+    tokenizer.save_pretrained("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/models")
 
 if __name__ == "__main__":
     main()

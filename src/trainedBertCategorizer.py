@@ -1,10 +1,12 @@
-from transformers import AutoTokenizer, AutoModel
+from transformers import BertTokenizer, BertForSequenceClassification
 import json
 import torch
 import numpy as np
 
-tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-model = AutoModel.from_pretrained("bert-base-uncased")
+# # Aidan Mac: /Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/
+# # Aidan Linux: /home/aidan/Documents/School/ECE595/ECE595-RegexBugs/
+tokenizer = BertTokenizer.from_pretrained("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/models")
+model = BertForSequenceClassification.from_pretrained("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/models", num_labels=2)
 
 dataTypeEvolution = 1
 dataTypeMaintenance = 2
@@ -23,13 +25,15 @@ def calculateCentroid(embeddings):
 def parseTrainingData(dataType):
     parsedData = []
     if(dataType == dataTypeEvolution):
-        with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataEvolution.jsonl', 'r') as file:
+        # with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataEvolution.jsonl', 'r') as file:
+        with open('/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/trainingData/trainingDataEvolution.jsonl', 'r') as file:
             for commit in file:
                 data = json.loads(commit)
                 parsedData.append(data["message"])
 
     elif(dataType == dataTypeMaintenance):
-        with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataMaintenance.jsonl', 'r') as file:
+        # with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataMaintenance.jsonl', 'r') as file:
+        with open('/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/trainingData/trainingDataMaintenance.jsonl', 'r') as file:
             for commit in file:
                 data = json.loads(commit)
                 parsedData.append(data["message"])
@@ -55,9 +59,11 @@ def main():
 
     # # Aidan Mac: /Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/
     # # Aidan Linux: /home/aidan/Documents/School/ECE595/ECE595-RegexBugs/
-    with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/categorizationsRE2_sorted_2.txt", 'w') as output_file:
+    # with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/categorizationsRE2_sorted_2.txt", 'w') as output_file:
+    with open("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/categorizationsRE2_sorted_2.txt", 'w') as output_file:
 
-        with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/uncategorizedData/re2_commits copy_sorted.jsonl", 'r') as file:
+        # with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/uncategorizedData/re2_commits copy_sorted.jsonl", 'r') as file:
+        with open("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/uncategorizedData/re2_commits copy_sorted.jsonl", 'r') as file:
             commitsToCheck = []
             for commit in file:
                 data = json.loads(commit)
