@@ -1,7 +1,7 @@
 import torch
 import json
 from torch.utils.data import Dataset, DataLoader
-from transformers import BertTokenizer, BertForSequenceClassification, AdamW
+from transformers import BertTokenizer, BertForSequenceClassification
 from tqdm import tqdm
 
 
@@ -68,14 +68,14 @@ def main():
     train_dataset = CommitTrainingDataset(sentences, labels, tokenizer, max_length=128)
     train_loader = DataLoader(train_dataset, batch_size=1)
 
-    optimizer = AdamW(model.parameters(), lr=5e-5)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
     criterion = torch.nn.CrossEntropyLoss()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
     model.train()
 
-    trainingIterations = 50
+    trainingIterations = 150
     for iteration in range(trainingIterations):
         total_loss = 0
         for batch in tqdm(train_loader, desc=f'Iteration {iteration + 1}/{trainingIterations}'):
@@ -94,8 +94,8 @@ def main():
         average_loss = total_loss / len(train_loader)
         print(f"Iteration {iteration + 1}/{trainingIterations}, Average Loss: {average_loss:.4f}")
 
-    model.save_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/models")
-    tokenizer.save_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/models")
+    model.save_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/modelsLargeTraining")
+    tokenizer.save_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/modelsLargeTraining")
 
 if __name__ == "__main__":
     main()
