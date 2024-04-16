@@ -9,6 +9,7 @@
 # Model Folders (They are far too large)
 models/
 modelsDecent/
+modelsLowerEpoch/
 modelsLargeTraining/
 
 # API key files

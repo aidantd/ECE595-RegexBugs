@@ -92,7 +92,7 @@ def main():
             total_loss += loss.item()
 
         average_loss = total_loss / len(train_loader)
-        print(f"Iteration {iteration + 1}/{trainingIterations}, Average Loss: {average_loss:.4f}")
+        print(f"Iteration {iteration + 1}/{trainingIterations}, Average Loss: {average_loss:.8f}")
 
     model.save_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/modelsLargeTraining")
     tokenizer.save_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/modelsLargeTraining")
