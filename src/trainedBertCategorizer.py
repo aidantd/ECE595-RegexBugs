@@ -11,8 +11,8 @@ dataTypeMaintenance = 1
 
 def main():
     # Load pre-trained tokenizer and model
-    tokenizer = BertTokenizer.from_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/modelsTest")
-    model = BertForSequenceClassification.from_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/modelsTest", num_labels=2)
+    tokenizer = BertTokenizer.from_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/modelsDecent")
+    model = BertForSequenceClassification.from_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/modelsDecent", num_labels=2)
 
     model.eval()
 
