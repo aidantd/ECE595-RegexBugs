@@ -2,21 +2,22 @@ from transformers import BertTokenizer, BertForSequenceClassification
 import json
 import torch
 
-dataTypeEvolution = 0
-dataTypeMaintenance = 1
-
 # # Aidan Mac: /Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/
 # # Aidan Linux: /home/aidan/Documents/School/ECE595/ECE595-RegexBugs/
 
+dataTypeEvolution = 0
+dataTypeMaintenance = 1
+
+
 def main():
     # Load pre-trained tokenizer and model
-    tokenizer = BertTokenizer.from_pretrained("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/models")
-    model = BertForSequenceClassification.from_pretrained("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/models", num_labels=2)
+    tokenizer = BertTokenizer.from_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/models")
+    model = BertForSequenceClassification.from_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/models", num_labels=2)
 
     model.eval()
 
-    with open("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/categorizationsRE2_sorted_2.txt", 'w') as output_file:
-        with open("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/uncategorizedData/re2_commits copy_sorted.jsonl", 'r') as file:
+    with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/categorizationsRE2_sorted_2.txt", 'w') as output_file:
+        with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/uncategorizedData/re2_commits copy_sorted.jsonl", 'r') as file:
             commitsToCheck = []
             for commit in file:
                 data = json.loads(commit)

@@ -5,6 +5,9 @@ from transformers import BertTokenizer, BertForSequenceClassification, AdamW
 from tqdm import tqdm
 
 
+# # Aidan Mac: /Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/
+# # Aidan Linux: /home/aidan/Documents/School/ECE595/ECE595-RegexBugs/
+
 dataTypeEvolution = 0
 dataTypeMaintenance = 1
 
@@ -12,8 +15,7 @@ def parseTrainingData(dataType):
     parsedData = []
     label_map = {'0': dataTypeEvolution, '1': dataTypeMaintenance}
     if dataType == dataTypeEvolution:
-        # with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataEvolution.jsonl', 'r') as file:
-        with open('/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/trainingData/trainingDataEvolution.jsonl', 'r') as file:
+        with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataEvolution.jsonl', 'r') as file:
             for commit in file:
                 data = json.loads(commit)
                 message = data["message"]
@@ -21,8 +23,7 @@ def parseTrainingData(dataType):
                 parsedData.append((message, label))
 
     elif dataType == dataTypeMaintenance:
-        # with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataMaintenance.jsonl', 'r') as file:
-        with open('/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/trainingData/trainingDataMaintenance.jsonl', 'r') as file:
+        with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataMaintenance.jsonl', 'r') as file:
             for commit in file:
                 data = json.loads(commit)
                 message = data["message"]
@@ -74,7 +75,7 @@ def main():
     model.to(device)
     model.train()
 
-    trainingIterations = 3
+    trainingIterations = 50
     for iteration in range(trainingIterations):
         total_loss = 0
         for batch in tqdm(train_loader, desc=f'Iteration {iteration + 1}/{trainingIterations}'):
@@ -93,13 +94,8 @@ def main():
         average_loss = total_loss / len(train_loader)
         print(f"Iteration {iteration + 1}/{trainingIterations}, Average Loss: {average_loss:.4f}")
 
-    # Aidan Mac
-    # model.save_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/models")
-    # tokenizer.save_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/models")
-    
-    # Aidan Linux
-    model.save_pretrained("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/models")
-    tokenizer.save_pretrained("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/models")
+    model.save_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/models")
+    tokenizer.save_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/models")
 
 if __name__ == "__main__":
     main()
