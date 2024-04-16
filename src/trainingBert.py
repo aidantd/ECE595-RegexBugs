@@ -68,14 +68,14 @@ def main():
     train_dataset = CommitTrainingDataset(sentences, labels, tokenizer, max_length=128)
     train_loader = DataLoader(train_dataset, batch_size=1)
 
-    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5, weight_decay=1e-4)
     criterion = torch.nn.CrossEntropyLoss()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
     model.train()
 
-    trainingIterations = 75
+    trainingIterations = 150
     for iteration in range(trainingIterations):
         total_loss = 0
         for batch in tqdm(train_loader, desc=f'Iteration {iteration + 1}/{trainingIterations}'):
