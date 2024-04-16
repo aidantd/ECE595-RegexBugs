@@ -8,6 +8,7 @@
 
 # Model Folders (They are far too large)
 models/
+modelsDecent/
 
 # API key files
 *.env
