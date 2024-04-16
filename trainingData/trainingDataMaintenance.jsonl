@@ -1,9 +1,8 @@
 {"message": "Fix bug", "label": "1"}
 {"message": "Remove deprecated files", "label": "1"}
 {"message": "Remove deprecated code", "label": "1"}
-{"message": "Add documentation for the code base", "label": "1"}
-{"message": "Add documentation for the function headers", "label": "1"}
-{"message": "Cleanup the code base", "label": "1"}
+{"message": "Add documentation", "label": "1"}
+{"message": "Cleanup code", "label": "1"}
 {"message": "Get rid of the remaining TODOs in the code", "label": "1"}
 {"message": "Fix issue where an edge-case caused a hard-fault", "label": "1"}
 {"message": "Add more error codes to the system so we have better error handeling", "label": "1"}
