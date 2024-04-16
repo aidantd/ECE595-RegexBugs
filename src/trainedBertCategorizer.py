@@ -1,68 +1,21 @@
 from transformers import BertTokenizer, BertForSequenceClassification
 import json
 import torch
-import numpy as np
+
+dataTypeEvolution = 0
+dataTypeMaintenance = 1
 
 # # Aidan Mac: /Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/
 # # Aidan Linux: /home/aidan/Documents/School/ECE595/ECE595-RegexBugs/
-tokenizer = BertTokenizer.from_pretrained("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/models")
-model = BertForSequenceClassification.from_pretrained("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/models", num_labels=2)
-
-dataTypeEvolution = 1
-dataTypeMaintenance = 2
-
-def getEmbedding(sentence):
-    inputs = tokenizer(sentence, return_tensors="pt", padding=True, truncation=True)
-    
-    outputs = model(**inputs)
-
-    return outputs.last_hidden_state.mean(dim=1).detach().numpy()
-
-def calculateCentroid(embeddings):
-    return np.mean(embeddings, axis=0)
-
-
-def parseTrainingData(dataType):
-    parsedData = []
-    if(dataType == dataTypeEvolution):
-        # with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataEvolution.jsonl', 'r') as file:
-        with open('/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/trainingData/trainingDataEvolution.jsonl', 'r') as file:
-            for commit in file:
-                data = json.loads(commit)
-                parsedData.append(data["message"])
-
-    elif(dataType == dataTypeMaintenance):
-        # with open('/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/trainingData/trainingDataMaintenance.jsonl', 'r') as file:
-        with open('/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/trainingData/trainingDataMaintenance.jsonl', 'r') as file:
-            for commit in file:
-                data = json.loads(commit)
-                parsedData.append(data["message"])
-    
-    return parsedData
-
-
 
 def main():
-    evolutionJson = parseTrainingData(dataTypeEvolution)
-    maintenanceJson = parseTrainingData(dataTypeMaintenance)
+    # Load pre-trained tokenizer and model
+    tokenizer = BertTokenizer.from_pretrained("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/models")
+    model = BertForSequenceClassification.from_pretrained("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/models", num_labels=2)
 
-    evolutionEmbeddings = [getEmbedding(data) for data in evolutionJson]
-    maintenanceEmbeddings = [getEmbedding(data) for data in maintenanceJson]
+    model.eval()
 
-    evolutionCentroid = calculateCentroid(evolutionEmbeddings)
-    maintenanceCentroid = calculateCentroid(maintenanceEmbeddings)
-    
-    model.train()
-    
-    print("Evolution Centroid: " + str(evolutionCentroid) + "\n")
-    print("Maintenance Centroid: " + str(maintenanceCentroid) + "\n")
-
-    # # Aidan Mac: /Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/
-    # # Aidan Linux: /home/aidan/Documents/School/ECE595/ECE595-RegexBugs/
-    # with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/categorizationsRE2_sorted_2.txt", 'w') as output_file:
     with open("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/categorizationsRE2_sorted_2.txt", 'w') as output_file:
-
-        # with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/uncategorizedData/re2_commits copy_sorted.jsonl", 'r') as file:
         with open("/home/aidan/Documents/School/ECE595/ECE595-RegexBugs/uncategorizedData/re2_commits copy_sorted.jsonl", 'r') as file:
             commitsToCheck = []
             for commit in file:
@@ -73,33 +26,19 @@ def main():
         totalCommits = len(commitsToCheck)
 
         for commitMessage in commitsToCheck:
-            embedding = getEmbedding(commitMessage)
-            # print(embedding + "\n")
-            centroid = calculateCentroid(embedding)
+            inputs = tokenizer(commitMessage, padding='max_length', truncation=True, max_length=128, return_tensors="pt")
 
-            # evolution_distance = np.linalg.norm(evolutionCentroid - centroid)
-            # maintenance_distance = np.linalg.norm(maintenanceCentroid - centroid)
+            with torch.no_grad():
+                outputs = model(**inputs)
 
-            # if evolution_distance < maintenance_distance:
-            #     category = "Evolution"
-            # else:
-            #     category = "Maintenance"
-            
-            # Calculate cosine similarity
-            evolution_similarity = np.dot(evolutionCentroid, centroid) / (np.linalg.norm(evolutionCentroid) * np.linalg.norm(centroid))
-            maintenance_similarity = np.dot(maintenanceCentroid, centroid) / (np.linalg.norm(maintenanceCentroid) * np.linalg.norm(centroid))
-
-            # Determine category based on cosine similarity
-            if evolution_similarity < maintenance_similarity:
+            prediction = torch.argmax(outputs.logits, dim=1).item()
+            if prediction == dataTypeEvolution:
                 category = "Evolution"
             else:
                 category = "Maintenance"
 
-
             output_file.write("----------------------------------------------------------------------" + "\n")
             output_file.write("Category: " + category + "\n")
-            output_file.write("Evolution Distance: " + str(evolution_similarity) + "\n")
-            output_file.write("Maintenance Distance: " + str(maintenance_similarity) + "\n")
             output_file.write("Commit Msg: " + commitMessage + "\n")
             output_file.write("----------------------------------------------------------------------" + "\n")
 
