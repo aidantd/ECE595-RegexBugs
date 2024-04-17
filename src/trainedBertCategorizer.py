@@ -11,13 +11,13 @@ dataTypeMaintenance = 1
 
 def main():
     # Load pre-trained tokenizer and model
-    tokenizer = BertTokenizer.from_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/modelsLargeTrainingCorrect")
-    model = BertForSequenceClassification.from_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/modelsLargeTrainingCorrect", num_labels=2)
+    tokenizer = BertTokenizer.from_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/RegexBugsData/modelsLargeTrainingCorrect")
+    model = BertForSequenceClassification.from_pretrained("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/RegexBugsData/modelsLargeTrainingCorrect", num_labels=2)
 
     model.eval()
 
-    with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/categorizations_pcre2.txt", 'w') as output_file:
-        with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/uncategorizedData/pcre2_commits.jsonl", 'r') as file:
+    with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/RegexBugsData/categorizedData/categorizations_pcre2Testing.txt", 'w') as output_file:
+        with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/RegexBugsData/uncategorizedData/pcre2_commits.jsonl", 'r') as file:
             commitsToCheck = []
             for commit in file:
                 data = json.loads(commit)
