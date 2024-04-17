@@ -17,7 +17,7 @@ def main():
     model.eval()
 
     with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/categorizationsRE2_sorted_largeTrainingCorrect.txt", 'w') as output_file:
-        with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/uncategorizedData/re2_commits copy_sorted.jsonl", 'r') as file:
+        with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/ECE595-RegexBugs/uncategorizedData/re2_commits_fixed", 'r') as file:
             commitsToCheck = []
             for commit in file:
                 data = json.loads(commit)
