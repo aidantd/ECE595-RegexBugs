@@ -16,8 +16,8 @@ def main():
 
     model.eval()
 
-    with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/RegexBugsData/categorizedData/categorizations_perl.txt", 'w') as output_file:
-        with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/RegexBugsData/uncategorizedData/perl_commits_fixed2.jsonl", 'r') as file:
+    with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/RegexBugsData/categorizedData/categorizations_java.txt", 'w') as output_file:
+        with open("/Users/aidan/Documents/School/Purdue/AdvancedSoftwareEngineering/Code/RegexBugsData/uncategorizedData/java_commits.jsonl", 'r') as file:
             commitsToCheck = []
             for commit in file:
                 data = json.loads(commit)
