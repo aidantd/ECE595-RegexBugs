@@ -11,20 +11,23 @@ ECE 59500 AI Class, Spring 2024 - Regex Bugs project team
 import pandas as pd
 import json
 
-# Read from xlsx file
-excel_file = "data/rust_output.xlsx"
-df = pd.read_excel(
-    excel_file, usecols="A:F", skiprows=0, names=["hash", "date", "message","category","lines","Evolution?"]
-)
+def convert_xlsx_to_csv(repository_name):
+    # Read from xlsx file to Pandas DataFrame
+    excel_file = repository_name + "_output.xlsx"
+    df = pd.read_excel(
+        excel_file, usecols="A:F", skiprows=0, names=["hash", "date", "message","category","lines","Evolution?"]
+    )
 
-for i in range(len(df["message"])):
-    msg = df.loc[i,'message']
-    msg = msg.replace('"',"'").replace('\\','')
-    msg = msg.replace('\n'," ").replace('\r'," ")
-    df.loc[i,'message'] = msg
+    # Clean up commit text for CSV output
+    for i in range(len(df["message"])):
+        msg = df.loc[i,'message']
+        msg = msg.replace('"',"'").replace('\\','')
+        msg = msg.replace('\n'," ").replace('\r'," ")
+        df.loc[i,'message'] = msg
+
+    # Write needed columns to CSV file
+    df = df[["hash", "date", "message","Evolution?"]]
+    df.to_csv(repository_name + "_all.csv", index=False)
 
 repository_name = "data/rust"
-df["repository"] = repository_name
-
-df = df[["repository", "hash", "date", "message","Evolution?"]]
-df.to_csv(repository_name + "_all.csv", index=False)
+convert_xlsx_to_csv(repository_name)
