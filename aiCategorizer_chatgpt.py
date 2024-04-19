@@ -8,13 +8,21 @@ load_dotenv()  # take environment variables from .env.
 # Enter your api key here
 client = OpenAI()
 
+# List of models to query
 models = ["gpt-3.5-turbo", "ft:gpt-3.5-turbo-1106:personal:changelog-pcre2:95whKLu9"]
+
+# List of files to process
 data_dir = 'data/'
-# file_names = ['pcre2_test', 'pcre2_train','pcre2_all']
-file_names = ['pcre_test','pcre_all']
+repo_names = ['pcre2','java','ICU','pcre_chlog','pcre2_chlog'] #['v8','rust','pcre2','java','ICU','pcre_chlog','pcre2_chlog']
+input_file_suffixes = ['_test','_all']
+file_names = []
+for repo in repo_names:
+    for suffix in input_file_suffixes:
+        file_names.append(data_dir + repo + suffix)
+
+# For each file and model, query the model and record the response
 for file_name in file_names:
 
-    file_name = data_dir + file_name # append data directory to base file name
     data_path = file_name + ".jsonl"
     output_files = [file_name + "_output_base.jsonl", file_name + "_output_ft.jsonl"]
     for output_file, model in zip(output_files, models):
