@@ -24,6 +24,7 @@ from enum import Enum
 class LogType(Enum):
     PCRE = 1
     PCRE2 = 2
+    PyDriller = 3
 
 class ChangeData:
     def __init__(self, ver, date, desc, is_evo) -> None:
@@ -33,7 +34,7 @@ class ChangeData:
         self.is_evolution = is_evo
 
 
-def read_truth_file_from_csv(truth_file):
+def read_truth_file_from_csv(truth_file, ind_evolution=3):
     """
     Read truth data structure from a comma-separated values (CSV) file
     """
@@ -49,11 +50,11 @@ def read_truth_file_from_csv(truth_file):
             version = row[0]
             change_date = row[1]
             change_description = row[2]
-            if row[3] == '':
+            if row[ind_evolution] == '':
                 # change not yet graded, skip
                 is_evolution = None
             else:
-                is_evolution = row[3].lower()=='y'
+                is_evolution = row[ind_evolution].lower()=='y'
             all_data.append(ChangeData(version, change_date, change_description, is_evolution))
             counter += 1
     
@@ -128,8 +129,8 @@ def main(truth_file, output_file_prefix, log_type=LogType.PCRE, create_training_
     # Read truth file
     if log_type == LogType.PCRE or LogType.PCRE2:
         truth_data, all_data = read_truth_file_from_csv(truth_file)
-    # elif log_type == LogType.EXAMPLE:
-    #     truth_data, all_data = your_customized_read_truth_file_from_csv(truth_file)
+    elif log_type == LogType.PyDriller:
+        truth_data, all_data = read_truth_file_from_csv(truth_file, ind_evolution=5)
     else:
         raise ValueError(f'Unrecognized log_type value: {log_type}')
 
@@ -155,5 +156,11 @@ def main(truth_file, output_file_prefix, log_type=LogType.PCRE, create_training_
 
 
 if __name__ == "__main__":
-    main('data/ChangeLog_pcre2_all.csv', 'data/pcre2', LogType.PCRE2, create_training_split=True)
-    main('data/ChangeLog_pcre_all.csv', 'data/pcre', LogType.PCRE)
+    main('data/ChangeLog_pcre2_all.csv', 'data/pcre2_chlog', LogType.PCRE2, create_training_split=True)
+    main('data/ChangeLog_pcre_all.csv', 'data/pcre_chlog', LogType.PCRE)
+    
+    repo_names = ['v8','rust','pcre2','java','ICU']
+    for name in repo_names:
+        repository_name = "data/" + name
+        csv_input_file = repository_name + "_all.csv"
+        main(csv_input_file, repository_name, LogType.PyDriller)
