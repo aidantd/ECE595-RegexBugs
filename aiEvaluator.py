@@ -66,7 +66,7 @@ def eval_file(data_path):
 
 
 if __name__ == '__main__':
-    file_names = ['pcre2_test', 'pcre2_train']
+    file_names = ['pcre2_test', 'pcre2_train', 'pcre_test']
     data_dir = 'data/'
     for file_name in file_names:
 

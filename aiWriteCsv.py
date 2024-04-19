@@ -89,11 +89,12 @@ def convert_jsonl_to_csv(name, csv_file):
 
 
 if __name__ == "__main__":
+    # PCRE2
     csv_file = 'data/ChangeLog_pcre2_all.csv'
+    jsonl_file_name = 'data/pcre2_all_output_ft'
+    convert_jsonl_to_csv(jsonl_file_name, csv_file)
 
-    data_dir = 'data/'
-    jsonl_file_names = ['pcre2_all_output_ft']
-
-    for name in jsonl_file_names:
-        name = data_dir + name # append data directory to base file name
-        convert_jsonl_to_csv(name, csv_file)
+    # PCRE
+    csv_file = 'data/ChangeLog_pcre_all.csv'
+    jsonl_file_name = 'data/pcre_all_output_ft'
+    convert_jsonl_to_csv(jsonl_file_name, csv_file)

@@ -124,25 +124,36 @@ def write_jsonl(output_text, output_file):
         f.close()
     print(f'Wrote {len(output_text)} lines to {output_file}')
 
-def main(truth_file, output_file_prefix, log_type=LogType.PCRE):
+def main(truth_file, output_file_prefix, log_type=LogType.PCRE, create_training_split=False):
     # Read truth file
-    truth_data, all_data = read_truth_file_from_csv(truth_file)
+    if log_type == LogType.PCRE or LogType.PCRE2:
+        truth_data, all_data = read_truth_file_from_csv(truth_file)
+    # elif log_type == LogType.EXAMPLE:
+    #     truth_data, all_data = your_customized_read_truth_file_from_csv(truth_file)
+    else:
+        raise ValueError(f'Unrecognized log_type value: {log_type}')
 
     # Create output data structure
-    message_data_train = construct_truth_message_data(truth_data[::2])
-    message_data_test = construct_truth_message_data(truth_data[1::2])
+    if create_training_split:
+        message_data_train = construct_truth_message_data(truth_data[::2])
+        message_data_test = construct_truth_message_data(truth_data[1::2])
+    else:
+        message_data_test = construct_truth_message_data(truth_data)
     message_data_all = construct_input_message_data(all_data)
 
     # Create output text
-    output_text_train = convert_to_jsonl(message_data_train)
+    if create_training_split:
+        output_text_train = convert_to_jsonl(message_data_train)
     output_text_test = convert_to_jsonl(message_data_test)
     output_text_all = convert_to_jsonl(message_data_all)
     
     # Write Training data split to output file (_train.jsonl)
-    write_jsonl(output_text_train, output_file_prefix + '_train.jsonl')
+    if create_training_split:
+        write_jsonl(output_text_train, output_file_prefix + '_train.jsonl')
     write_jsonl(output_text_test, output_file_prefix + '_test.jsonl')
     write_jsonl(output_text_all, output_file_prefix + '_all.jsonl')
 
 
 if __name__ == "__main__":
-    main('data/ChangeLog_pcre2_all.csv', 'data/pcre2', LogType.PCRE)
+    main('data/ChangeLog_pcre2_all.csv', 'data/pcre2', LogType.PCRE2, create_training_split=True)
+    main('data/ChangeLog_pcre_all.csv', 'data/pcre', LogType.PCRE)

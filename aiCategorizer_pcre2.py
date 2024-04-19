@@ -10,7 +10,8 @@ client = OpenAI()
 
 models = ["gpt-3.5-turbo", "ft:gpt-3.5-turbo-1106:personal:changelog-pcre2:95whKLu9"]
 data_dir = 'data/'
-file_names = ['pcre2_test', 'pcre2_train','pcre2_all']
+# file_names = ['pcre2_test', 'pcre2_train','pcre2_all']
+file_names = ['pcre_test','pcre_all']
 for file_name in file_names:
 
     file_name = data_dir + file_name # append data directory to base file name
