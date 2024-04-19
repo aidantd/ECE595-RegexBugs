@@ -9,7 +9,7 @@ ECE 59500 AI Class, Spring 2024 - Regex Bugs project team
 """
 
 import pandas as pd
-import json
+import unicodedata
 
 def convert_xlsx_to_csv(repository_name):
     # Read from xlsx file to Pandas DataFrame
@@ -22,7 +22,8 @@ def convert_xlsx_to_csv(repository_name):
     for i in range(len(df["message"])):
         msg = df.loc[i,'message']
         msg = msg.replace('"',"'").replace('\\','')
-        msg = msg.replace('\n'," ").replace('\r'," ")
+        msg = msg.replace('\n'," ").replace('\r'," ")       
+        msg = "".join(ch for ch in msg if unicodedata.category(ch)[0]!="C")
         df.loc[i,'message'] = msg
 
     # Write needed columns to CSV file
