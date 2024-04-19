@@ -27,4 +27,4 @@ repository_name = "data/rust"
 df["repository"] = repository_name
 
 df = df[["repository", "hash", "date", "message","Evolution?"]]
-df.to_csv(repository_name + "_truth.csv", index=False)
+df.to_csv(repository_name + "_all.csv", index=False)
