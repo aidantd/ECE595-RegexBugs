@@ -29,5 +29,7 @@ def convert_xlsx_to_csv(repository_name):
     df = df[["hash", "date", "message","Evolution?"]]
     df.to_csv(repository_name + "_all.csv", index=False)
 
-repository_name = "data/rust"
-convert_xlsx_to_csv(repository_name)
+repo_names = ['v8','rust','pcre2','java','ICU']
+for name in repo_names:
+    repository_name = "data/" + name
+    convert_xlsx_to_csv(repository_name)
