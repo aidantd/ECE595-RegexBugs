@@ -6,7 +6,7 @@ Start with ChangeLog_pcre2.txt in the working directory. This is a download of t
 Verify that the following files are available for running:
 - parse_log.py
 - truth_csv_to_jsonl.py
-- aiCategorizer_pcre2.py
+- aiCategorizer_chatgpt.py
 - aiWriteCsv.py
 
 Verify that the following packages are installed and ready to use by Python
@@ -40,13 +40,13 @@ Once you have labeled some data, you can use this data to train a custom fine-tu
 
 1. Run `truth_csv_to_jsonl.py` to create the training and test JSONL files
 2. Using the OpenAI web portal, start a Fine-Tuning job of the ChatGPT-3.5-0125 model using `pcre2_train.jsonl` for the training set and `pcre2_test.jsonl` for the test/validation set.
-3. When the Fine-Tuning job is complete, copy the name of the new fine-tuned model and paste it into `aiCategorizer_pcre2.py` on line 11, replacing any existing fine-tuned model name.
+3. When the Fine-Tuning job is complete, copy the name of the new fine-tuned model and paste it into `aiCategorizer_chatgpt.py` on line 11, replacing any existing fine-tuned model name.
 
 ## Using the models
 Next, use OpenAI API to get responses from the base and fine-tuned models in Python.
 
-1. Run `aiCategorizer_pcre2.py` to query model responses for all data sets (train, test, and all JSONL files) from both the base and fine-tuned models. Model responses are saved in new JSONL files named `pcre2_[train/test/all]_output_[base/ft].jsonl`.
-2. Run `aiWriteCsv.py` to append the responses from the `pcre2_all_output_ft.jsonl` to the `ChangeLog_pcre2.csv` file, and save as `pcre2_all_output_ft.csv`.
+1. Run `aiCategorizer_chatgpt.py` to query model responses for all data sets (train, test, and all JSONL files) from both the base and fine-tuned models. Model responses are saved in new JSONL files named `[engine]_[train/test/all]_output_[base/ft].jsonl`.
+2. Run `aiWriteCsv.py` to append the responses from the model, e.g. `pcre2_all_output_ft.jsonl`, to the original csv file, e.g. `ChangeLog_pcre2.csv`, and save as a new csv file, e.g. `pcre2_all_output_ft.csv`.
 
 ## Evaluating each model
 The accuracy of the AI responses should be evaulated against the test data set only. Evaluation against the training set is useful only to inspect for overfitting concerns. In general, accuracy of the fine-tuned model should be better than the base model, and have a more consistent output. Because of possible unexpected responses from the model, individual responses and the automated matching to "Maintenance" or "Evolution" should be inspected as well.

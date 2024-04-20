@@ -89,12 +89,21 @@ def convert_jsonl_to_csv(name, csv_file):
 
 
 if __name__ == "__main__":
-    # PCRE2
+    # PCRE2 Changelog
     csv_file = 'data/ChangeLog_pcre2_all.csv'
-    jsonl_file_name = 'data/pcre2_all_output_ft'
+    jsonl_file_name = 'data/pcre2_chlog_all_output_ft'
     convert_jsonl_to_csv(jsonl_file_name, csv_file)
 
-    # PCRE
+    # PCRE Changelog
     csv_file = 'data/ChangeLog_pcre_all.csv'
-    jsonl_file_name = 'data/pcre_all_output_ft'
+    jsonl_file_name = 'data/pcre_chlog_all_output_ft'
     convert_jsonl_to_csv(jsonl_file_name, csv_file)
+
+    # PyDriller Commits
+    data_path = 'data/'
+    repositories = ['v8','rust','pcre2','java','ICU']
+
+    for repo_name in repositories:
+        csv_file = data_path + repo_name + '_all.csv'
+        jsonl_file_name = data_path + repo_name + '_all_output_ft'
+        convert_jsonl_to_csv(jsonl_file_name, csv_file)
