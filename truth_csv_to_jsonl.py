@@ -159,7 +159,7 @@ if __name__ == "__main__":
     main('data/ChangeLog_pcre2_all.csv', 'data/pcre2_chlog', LogType.PCRE2, create_training_split=True)
     main('data/ChangeLog_pcre_all.csv', 'data/pcre_chlog', LogType.PCRE)
     
-    repo_names = ['v8','rust','pcre2','java','ICU']
+    repo_names = ['v8','rust','pcre2','java','ICU','re2','python_re']
     for name in repo_names:
         repository_name = "data/" + name
         csv_input_file = repository_name + "_all.csv"

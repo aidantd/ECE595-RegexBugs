@@ -74,6 +74,8 @@ if __name__ == '__main__':
                   'pcre2_test',
                   'java_test',
                   'ICU_test',
+                  're2_test',
+                  'python_re_test',
                   ]
     data_dir = 'data/'
     for file_name in file_names:

@@ -101,7 +101,7 @@ if __name__ == "__main__":
 
     # PyDriller Commits
     data_path = 'data/'
-    repositories = ['v8','rust','pcre2','java','ICU']
+    repositories = ['v8','rust','pcre2','java','ICU','re2','python_re']
 
     for repo_name in repositories:
         csv_file = data_path + repo_name + '_all.csv'
