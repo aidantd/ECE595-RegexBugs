@@ -125,6 +125,13 @@ def write_jsonl(output_text, output_file):
         f.close()
     print(f'Wrote {len(output_text)} lines to {output_file}')
 
+def print_results_csv(file, data):
+    with open(file, 'w') as f:
+        f.write('engine,total,labeled\n')
+        for d in data:
+            line = f'{d[0]}, {d[1]:.1f}, {d[2]:.1f}\n'
+            f.write(line)
+
 def main(truth_file, output_file_prefix, log_type=LogType.PCRE, create_training_split=False):
     # Read truth file
     if log_type == LogType.PCRE or LogType.PCRE2:
@@ -154,13 +161,21 @@ def main(truth_file, output_file_prefix, log_type=LogType.PCRE, create_training_
     write_jsonl(output_text_test, output_file_prefix + '_test.jsonl')
     write_jsonl(output_text_all, output_file_prefix + '_all.jsonl')
 
+    return len(all_data), len(truth_data)
 
 if __name__ == "__main__":
-    main('data/ChangeLog_pcre2_all.csv', 'data/pcre2_chlog', LogType.PCRE2, create_training_split=True)
-    main('data/ChangeLog_pcre_all.csv', 'data/pcre_chlog', LogType.PCRE)
+    results = []
+    n_total, n_truth = main('data/ChangeLog_pcre2_all.csv', 'data/pcre2_chlog', LogType.PCRE2, create_training_split=True)
+    results.append(['pcre2_chlog', n_total, n_truth])
+
+    n_total, n_truth = main('data/ChangeLog_pcre_all.csv', 'data/pcre_chlog', LogType.PCRE)
+    results.append(['pcre_chlog', n_total, n_truth])
     
     repo_names = ['v8','rust','pcre2','java','ICU','re2','python_re']
     for name in repo_names:
         repository_name = "data/" + name
         csv_input_file = repository_name + "_all.csv"
-        main(csv_input_file, repository_name, LogType.PyDriller)
+        n_total, n_truth = main(csv_input_file, repository_name, LogType.PyDriller)
+        results.append([name, n_total, n_truth])
+
+    print_results_csv('data/' + 'truth_label_counts.csv', results)
