@@ -47,9 +47,10 @@ def grade_responses(dataset):
 
         else:
             # Print incorrect responses
-            print(f'  [INCORRECT] Expected: {expected_response}, but recieved: {model_response}')
+            # print(f'  [INCORRECT] Expected: {expected_response}, but recieved: {model_response}')
             # print(f'  {dataset[i]['input_messages'][-1]['content']}')
             # print(f'  Finish Reason: {finish_reason}')
+            pass
 
     return ind_correct
 
@@ -66,7 +67,14 @@ def eval_file(data_path):
 
 
 if __name__ == '__main__':
-    file_names = ['pcre2_test', 'pcre2_train', 'pcre_test']
+    file_names = ['pcre2_chlog_test', 
+                  'pcre_chlog_test',
+                  'v8_test',
+                  'rust_test',
+                  'pcre2_test',
+                  'java_test',
+                  'ICU_test',
+                  ]
     data_dir = 'data/'
     for file_name in file_names:
 
