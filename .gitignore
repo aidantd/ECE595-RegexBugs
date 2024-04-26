@@ -5,6 +5,7 @@
 *.xlsx
 *.csv
 *.jsonl
+data/*
 
 # Model Folders (They are far too large)
 models/

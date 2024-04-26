@@ -24,6 +24,7 @@ from enum import Enum
 class LogType(Enum):
     PCRE = 1
     PCRE2 = 2
+    PyDriller = 3
 
 class ChangeData:
     def __init__(self, ver, date, desc, is_evo) -> None:
@@ -33,7 +34,7 @@ class ChangeData:
         self.is_evolution = is_evo
 
 
-def read_truth_file_from_csv(truth_file):
+def read_truth_file_from_csv(truth_file, ind_evolution=3):
     """
     Read truth data structure from a comma-separated values (CSV) file
     """
@@ -49,11 +50,11 @@ def read_truth_file_from_csv(truth_file):
             version = row[0]
             change_date = row[1]
             change_description = row[2]
-            if row[3] == '':
+            if row[ind_evolution] == '':
                 # change not yet graded, skip
                 is_evolution = None
             else:
-                is_evolution = row[3].lower()=='y'
+                is_evolution = row[ind_evolution].lower()=='y'
             all_data.append(ChangeData(version, change_date, change_description, is_evolution))
             counter += 1
     
@@ -124,25 +125,57 @@ def write_jsonl(output_text, output_file):
         f.close()
     print(f'Wrote {len(output_text)} lines to {output_file}')
 
-def main(truth_file, output_file_prefix, log_type=LogType.PCRE):
+def print_results_csv(file, data):
+    with open(file, 'w') as f:
+        f.write('engine,total,labeled\n')
+        for d in data:
+            line = f'{d[0]}, {d[1]:.1f}, {d[2]:.1f}\n'
+            f.write(line)
+
+def main(truth_file, output_file_prefix, log_type=LogType.PCRE, create_training_split=False):
     # Read truth file
-    truth_data, all_data = read_truth_file_from_csv(truth_file)
+    if log_type == LogType.PCRE or LogType.PCRE2:
+        truth_data, all_data = read_truth_file_from_csv(truth_file)
+    elif log_type == LogType.PyDriller:
+        truth_data, all_data = read_truth_file_from_csv(truth_file, ind_evolution=5)
+    else:
+        raise ValueError(f'Unrecognized log_type value: {log_type}')
 
     # Create output data structure
-    message_data_train = construct_truth_message_data(truth_data[::2])
-    message_data_test = construct_truth_message_data(truth_data[1::2])
+    if create_training_split:
+        message_data_train = construct_truth_message_data(truth_data[::2])
+        message_data_test = construct_truth_message_data(truth_data[1::2])
+    else:
+        message_data_test = construct_truth_message_data(truth_data)
     message_data_all = construct_input_message_data(all_data)
 
     # Create output text
-    output_text_train = convert_to_jsonl(message_data_train)
+    if create_training_split:
+        output_text_train = convert_to_jsonl(message_data_train)
     output_text_test = convert_to_jsonl(message_data_test)
     output_text_all = convert_to_jsonl(message_data_all)
     
     # Write Training data split to output file (_train.jsonl)
-    write_jsonl(output_text_train, output_file_prefix + '_train.jsonl')
+    if create_training_split:
+        write_jsonl(output_text_train, output_file_prefix + '_train.jsonl')
     write_jsonl(output_text_test, output_file_prefix + '_test.jsonl')
     write_jsonl(output_text_all, output_file_prefix + '_all.jsonl')
 
+    return len(all_data), len(truth_data)
 
 if __name__ == "__main__":
-    main('ChangeLog_pcre2_all.csv', 'pcre2', LogType.PCRE)
+    results = []
+    n_total, n_truth = main('data/ChangeLog_pcre2_all.csv', 'data/pcre2_chlog', LogType.PCRE2, create_training_split=True)
+    results.append(['pcre2_chlog', n_total, n_truth])
+
+    n_total, n_truth = main('data/ChangeLog_pcre_all.csv', 'data/pcre_chlog', LogType.PCRE)
+    results.append(['pcre_chlog', n_total, n_truth])
+    
+    repo_names = ['v8','rust','pcre2','java','ICU','re2','python_re']
+    for name in repo_names:
+        repository_name = "data/" + name
+        csv_input_file = repository_name + "_all.csv"
+        n_total, n_truth = main(csv_input_file, repository_name, LogType.PyDriller)
+        results.append([name, n_total, n_truth])
+
+    print_results_csv('data/' + 'truth_label_counts.csv', results)
