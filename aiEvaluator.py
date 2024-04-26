@@ -47,11 +47,19 @@ def grade_responses(dataset):
 
         else:
             # Print incorrect responses
-            print(f'  [INCORRECT] Expected: {expected_response}, but recieved: {model_response}')
+            # print(f'  [INCORRECT] Expected: {expected_response}, but recieved: {model_response}')
             # print(f'  {dataset[i]['input_messages'][-1]['content']}')
             # print(f'  Finish Reason: {finish_reason}')
+            pass
 
     return ind_correct
+
+def print_results_csv(file, data):
+    with open(file, 'w') as f:
+        f.write('engine,base,finetuned\n')
+        for d in data:
+            line = f'{d[0]}, {d[1]:.1f}, {d[2]:.1f}\n'
+            f.write(line)
 
 def eval_file(data_path):
 
@@ -62,17 +70,36 @@ def eval_file(data_path):
     # Evaluate results
     num_correct = sum([x>0 for x in ind_correct])
     num_trials = len(ind_correct)
-    print(f'Model accuracy = {num_correct/num_trials*100:.1f}% [{data_path}]')
+    accuracy = num_correct/num_trials*100
+    print(f'Model accuracy = {accuracy:.1f}% [{data_path}]')
+
+    return accuracy
 
 
 if __name__ == '__main__':
-    file_names = ['pcre2_test', 'pcre2_train']
+    file_names = ['pcre2_chlog_test', 
+                  'pcre_chlog_test',
+                  'v8_test',
+                  'rust_test',
+                  'pcre2_test',
+                  'java_test',
+                  'ICU_test',
+                  're2_test',
+                  'python_re_test',
+                  ]
+    data_dir = 'data/'
+    results = []
     for file_name in file_names:
 
-        data_paths = [file_name + "_output_base.jsonl", file_name + "_output_ft.jsonl"]
-        for data_path in data_paths:
-            eval_file(data_path)
+        file_path = data_dir + file_name # append data directory to base file name
 
+        data_path = file_path + "_output_base.jsonl"
+        accuracy_base = eval_file(data_path)
 
+        data_path = file_path + "_output_ft.jsonl"
+        accuracy_ft = eval_file(data_path)
+        
+        results.append([file_name, accuracy_base, accuracy_ft])
 
+    print_results_csv(data_dir+'accuracy_results.csv', results)
 

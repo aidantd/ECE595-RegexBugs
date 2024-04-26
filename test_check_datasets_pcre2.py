@@ -11,9 +11,11 @@ import numpy as np
 from collections import defaultdict
 
 # === DATA LOADING ===
+data_dir = 'data/'
 file_names = ['pcre2_test', 'pcre2_train']
 for file_name in file_names:
 
+    file_name = data_dir + file_name # append data directory to base file name
     data_path = file_name + ".jsonl"
 
     # Load the dataset
