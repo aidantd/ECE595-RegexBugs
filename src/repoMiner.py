@@ -52,7 +52,7 @@ def mineRepo():
         "https://github.com/python/cpython": "Lib/re/"
     }"""
     # Format: {repo url: folder path}
-    repoDict = {"https://github.com/unicode-org/icu": "icu4c/source/i18n/unicode/"}
+    repoDict = {"https://github.com/v8/v8": "src/regexp"}
     allEngTotal = {}
     allEngEvo = {}
     allEngMaintain = {}

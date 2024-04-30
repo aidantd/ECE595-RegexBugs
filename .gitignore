@@ -7,5 +7,13 @@
 *.jsonl
 data/*
 
+# Model Folders (They are far too large)
+models/
+modelsDecent/
+modelsLowerEpoch/
+modelsLargeTraining/
+modelsLargeTrainingCorrect/
+
 # API key files
 *.env
+*.txt
