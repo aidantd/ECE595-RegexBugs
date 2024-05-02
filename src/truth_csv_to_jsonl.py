@@ -165,11 +165,11 @@ def main(truth_file, output_file_prefix, log_type=LogType.PCRE, create_training_
 
 if __name__ == "__main__":
     results = []
-    # n_total, n_truth = main('data/ChangeLog_pcre2_all.csv', 'data/pcre2_chlog', LogType.PCRE2, create_training_split=True)
-    # results.append(['pcre2_chlog', n_total, n_truth])
+    n_total, n_truth = main('data/ChangeLog_pcre2_all.csv', 'data/pcre2_chlog', LogType.PCRE2, create_training_split=True)
+    results.append(['pcre2_chlog', n_total, n_truth])
 
-    # n_total, n_truth = main('data/ChangeLog_pcre_all.csv', 'data/pcre_chlog', LogType.PCRE)
-    # results.append(['pcre_chlog', n_total, n_truth])
+    n_total, n_truth = main('data/ChangeLog_pcre_all.csv', 'data/pcre_chlog', LogType.PCRE)
+    results.append(['pcre_chlog', n_total, n_truth])
     
     repo_names = ['net','perl','v8','rust','pcre2','java','ICU','re2','python_re']
     for name in repo_names:
