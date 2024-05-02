@@ -86,6 +86,8 @@ if __name__ == '__main__':
                   'ICU_test',
                   're2_test',
                   'python_re_test',
+                  'perl_test',
+                  'net_test',
                   ]
     data_dir = 'data/'
     results = []

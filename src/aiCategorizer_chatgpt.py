@@ -13,7 +13,7 @@ models = ["gpt-3.5-turbo", "ft:gpt-3.5-turbo-1106:personal:changelog-pcre2:95whK
 
 # List of files to process
 data_dir = 'data/'
-repo_names = ['v8','rust','pcre2','java','ICU','re2','python_re','pcre_chlog','pcre2_chlog']
+repo_names = ['net','perl','v8','rust','pcre2','java','ICU','re2','python_re','pcre_chlog','pcre2_chlog']
 input_file_suffixes = ['_test','_all']
 file_names = []
 for repo in repo_names:

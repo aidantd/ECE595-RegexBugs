@@ -4,7 +4,7 @@ import datetime
 models = ['OPENAI', 'BERT']
 input_file_prefix = 'data/master_outputs_'
 output_file_prefix = 'data/master_results_'
-repo_names = ['java','v8','python','pcre2','rust','re2','icu']
+repo_names = ['java','v8','.net','python','perl','pcre2','rust','re2','icu']
 
 
 def convert_xlsx_to_df(input_file, name, model):
