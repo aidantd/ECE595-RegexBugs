@@ -168,14 +168,14 @@ if __name__ == "__main__":
     n_total, n_truth = main('data/ChangeLog_pcre2_all.csv', 'data/pcre2_chlog', LogType.PCRE2, create_training_split=True)
     results.append(['pcre2_chlog', n_total, n_truth])
 
-    n_total, n_truth = main('data/ChangeLog_pcre_all.csv', 'data/pcre_chlog', LogType.PCRE)
+    n_total, n_truth = main('data/ChangeLog_pcre_all.csv', 'data/pcre_chlog', LogType.PCRE, create_training_split=True)
     results.append(['pcre_chlog', n_total, n_truth])
     
     repo_names = ['net','perl','v8','rust','pcre2','java','ICU','re2','python_re']
     for name in repo_names:
         repository_name = "data/" + name
         csv_input_file = repository_name + "_all.csv"
-        n_total, n_truth = main(csv_input_file, repository_name, LogType.PyDriller)
+        n_total, n_truth = main(csv_input_file, repository_name, LogType.PyDriller, create_training_split=True)
         results.append([name, n_total, n_truth])
 
     print_results_csv('data/' + 'truth_label_counts.csv', results)
