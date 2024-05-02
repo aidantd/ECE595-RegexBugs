@@ -1,18 +1,36 @@
 import pandas as pd
 import datetime
 
-input_file = 'data/master_outputs_OPENAI.xlsx'
-output_file = 'data/master_results_OPENAI.xlsx'
-repo_names = ['java','v8','python','pcre2','rust','re2','icu']
+models = ['OPENAI', 'BERT']
+input_file_prefix = 'data/master_outputs_'
+output_file_prefix = 'data/master_results_'
+repo_names = ['java','v8','.net','python','perl','pcre2','rust','re2','icu']
 
 
-def convert_xlsx_to_df(input_file, name):
+def convert_xlsx_to_df(input_file, name, model):
     # Read from xlsx file to Pandas DataFrame
-    df = pd.read_excel(
-        input_file,
-        sheet_name=name,
-        usecols="A:D",
-        names=["hash","date","message","Evolution?"])
+    if model == 'OPENAI':
+        df = pd.read_excel(
+            input_file,
+            sheet_name=name,
+            usecols="A:D",
+            names=["hash","date","message","Evolution?"])
+    else:
+        df = pd.read_excel(
+            input_file,
+            sheet_name=name,
+            usecols="A:C",
+            names=["message","date","Category"])
+        category = df["Category"].to_list()
+        for i in range(len(category)):
+            if category[i].lower() == 'maintenance':
+                category[i] = "N"
+            elif category[i].lower() == 'evolution':
+                category[i] = "Y"
+            else:
+                category[i] = "?"
+        df["Evolution?"] = category
+
     return df
 
 def convert_date_column_to_datetime_list(df: pd.DataFrame):
@@ -62,11 +80,13 @@ def write_to_xlsx(file, results, repo_names):
             print(f'  Saved {len(results[name]['years'])} rows to sheet "{name}"')
 
 
-def main(input_file, output_file, repo_names):
+def main(model, repo_names):
+    input_file = input_file_prefix + model + '.xlsx'
+    output_file = output_file_prefix + model + '.xlsx'
     print(f'\nReading label data from file: {input_file}')
     results = dict()
     for name in repo_names:
-        df = convert_xlsx_to_df(input_file, name)
+        df = convert_xlsx_to_df(input_file, name, model)
         print(f'  Read {len(df)} rows from sheet: "{name}"')
         print('  Converting dates and summarizing data by years...',end='')
         df = convert_date_column_to_datetime_list(df)
@@ -77,4 +97,5 @@ def main(input_file, output_file, repo_names):
     write_to_xlsx(output_file, results, repo_names)
     print('Script completed!\n\n')
 
-main(input_file, output_file, repo_names)
+for model in models:
+    main(model, repo_names)

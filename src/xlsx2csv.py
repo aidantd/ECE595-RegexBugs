@@ -15,12 +15,13 @@ def convert_xlsx_to_csv(repository_name):
     # Read from xlsx file to Pandas DataFrame
     excel_file = repository_name + "_output.xlsx"
     df = pd.read_excel(
-        excel_file, usecols="A:F", skiprows=0, names=["hash", "date", "message","category","lines","Evolution?"]
+        excel_file, usecols="A:F", skiprows=0, names=["hash", "date", "message","category","lines","Evolution?"],
+        dtype=str
     )
 
     # Clean up commit text for CSV output
     for i in range(len(df["message"])):
-        msg = df.loc[i,'message']
+        msg = str(df.loc[i,'message'])
         msg = msg.replace('"',"'").replace('\\','')
         msg = msg.replace('\n'," ").replace('\r'," ")       
         msg = "".join(ch for ch in msg if unicodedata.category(ch)[0]!="C")
@@ -30,7 +31,7 @@ def convert_xlsx_to_csv(repository_name):
     df = df[["hash", "date", "message","Evolution?"]]
     df.to_csv(repository_name + "_all.csv", index=False)
 
-repo_names = ['v8','rust','pcre2','java','ICU','re2','python_re']
+repo_names = ['net','perl','v8','rust','pcre2','java','ICU','re2','python_re']
 for name in repo_names:
     repository_name = "data/" + name
     convert_xlsx_to_csv(repository_name)

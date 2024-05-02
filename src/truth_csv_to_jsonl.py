@@ -171,7 +171,7 @@ if __name__ == "__main__":
     n_total, n_truth = main('data/ChangeLog_pcre_all.csv', 'data/pcre_chlog', LogType.PCRE)
     results.append(['pcre_chlog', n_total, n_truth])
     
-    repo_names = ['v8','rust','pcre2','java','ICU','re2','python_re']
+    repo_names = ['net','perl','v8','rust','pcre2','java','ICU','re2','python_re']
     for name in repo_names:
         repository_name = "data/" + name
         csv_input_file = repository_name + "_all.csv"
